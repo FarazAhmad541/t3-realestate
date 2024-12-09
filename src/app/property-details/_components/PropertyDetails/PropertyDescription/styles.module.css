@@ -1,0 +1,224 @@
+.description_section {
+  display: block;
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-md);
+  width: 100%;
+}
+
+.content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-lg);
+  flex: 1;
+}
+
+.sub_heading {
+  font-size: var(--fs-400);
+  font-weight: 600;
+  color: var(--clr-dark);
+}
+
+.description_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-lg);
+}
+
+.description {
+  white-space: pre-line;
+  font-size: var(--fs-300);
+  font-weight: 400;
+}
+
+.read_more {
+  all: unset; /* reset all properties */
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 0.5rem 1rem 0.5rem 0;
+  border-radius: var(--radius-small);
+  cursor: pointer;
+  color: var(--clr-primary);
+}
+.button_icon {
+  width: 2rem;
+  height: 2rem;
+}
+.button_text {
+  font-size: var(--fs-400);
+  font-weight: 600;
+}
+
+.button_text:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--clr-primary);
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-md);
+  width: 100%;
+  background-color: var(--clr-light);
+  padding: 2rem;
+  border-radius: var(--radius-large);
+  flex: 0;
+  min-width: 350px;
+  border: 1px solid var(--clr-dark-accent);
+  position: sticky;
+  top: 6rem;
+}
+
+.contact_heading {
+  font-size: var(--fs-500);
+  font-weight: 600;
+  color: var(--clr-dark);
+}
+
+.seller_info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.icon_wrapper {
+  background-color: var(--clr-primary-accent);
+  padding: 1rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--clr-primary);
+}
+
+.seller_name {
+  font-size: var(--fs-400);
+  font-weight: 600;
+}
+
+.contact_button {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  padding: 1rem;
+  border-radius: var(--radius-large);
+  cursor: pointer;
+  color: var(--clr-dark);
+  background-color: var(--clr-light);
+  border: 1px solid var(--clr-dark-accent);
+  width: 100%;
+  font-weight: 600;
+}
+
+.contact_button:hover {
+  background-color: var(--clr-light-accent);
+}
+
+.contact_icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.amenities_section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.main_features,
+.rooms {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: var(--radius-large);
+  overflow: hidden;
+}
+
+.feature_heading {
+  font-size: var(--fs-300);
+  font-weight: 500;
+  padding: 1rem;
+  width: 100%;
+  color: var(--clr-primary);
+  background-color: var(--clr-primary-accent);
+}
+
+.main_features_list,
+.rooms_list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 100%;
+}
+
+.feature_wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  padding: 0.5rem 1rem;
+}
+
+.feature_wrapper:nth-child(-n + 2),
+.feature_wrapper:nth-child(n + 5) {
+  background-color: var(--clr-light-accent);
+}
+
+.list_icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--clr-dark);
+}
+
+.feature_text {
+  font-size: var(--fs-300);
+  font-weight: 400;
+  color: var(--clr-dark);
+}
+
+@media screen and (max-width: 500px) {
+  .main_features_list,
+  .rooms_list {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .feature_wrapper:nth-child(-n + 2),
+  .feature_wrapper:nth-child(n + 5) {
+    background-color: var(--clr-light);
+  }
+  .feature_wrapper:nth-child(even) {
+    background-color: var(--clr-light-accent);
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .container {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-md);
+    width: 100%;
+  }
+  .content {
+    flex: 1;
+    width: 100%;
+  }
+  .contact {
+    position: sticky;
+    top: 6rem;
+  }
+}

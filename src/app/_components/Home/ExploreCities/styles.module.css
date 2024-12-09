@@ -1,0 +1,87 @@
+.explore_cities_section {
+  background-color: var(--clr-light-accent);
+  color: var(--clr-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 3rem;
+}
+
+.heading_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+}
+
+.sub_heading {
+  font-size: var(--fs-400);
+  color: var(--clr-primary);
+  font-weight: 600;
+  margin: auto;
+}
+
+.heading {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--clr-dark);
+  margin: auto;
+  text-align: center;
+}
+
+.grid {
+  --columns: 1;
+  display: grid;
+  margin: auto;
+  grid-template-columns: repeat(var(--columns), minmax(400px, 1fr));
+  gap: var(--space-xl);
+  width: 100%;
+  max-width: 1280px;
+}
+
+@media screen and (min-width: 500px) {
+  .heading_container {
+    text-align: center;
+  }
+  .heading {
+    font-size: 1.5rem;
+  }
+  .grid {
+    --columns: 2
+    width: fit-content;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .grid {
+    --columns: 2;
+    width: fit-content;
+  }
+  .heading {
+    font-size: 2.5rem;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .grid {
+    --columns: 3;
+    width: fit-content;
+  }
+}
+
+.view_all_button {
+  background-color: var(--clr-primary);
+  color: var(--clr-light);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: var(--fs-300);
+  font-weight: 600;
+  border-radius: var(--radius-small);
+  cursor: pointer;
+}
+
+.view_all_button:hover {
+  background-color: var(--clr-primary-hover);
+}
