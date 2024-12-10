@@ -3,7 +3,7 @@
   grid-template-columns: repeat(1, 1fr);
   grid-template-rows: repeat(1, 1fr);
   gap: var(--space-md);
-  border-radius: var(--radius-large);
+  border-radius: var(--radius-lg);
   grid-auto-columns: auto;
   width: 100%;
   max-height: 400px;
@@ -63,7 +63,7 @@
   background-color: var(--clr-light);
   color: var(--clr-dark);
   padding: 0.5rem 1rem;
-  border-radius: var(--radius-small);
+  border-radius: var(--radius-sm);
   margin: 0 0.75rem 0.75rem 0;
   display: flex;
   align-items: center;

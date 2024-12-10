@@ -23,7 +23,7 @@
   background-color: #ffa500;
   color: var(--clr-light);
   padding: 0.25rem 0.75rem;
-  border-radius: var(--radius-small);
+  border-radius: var(--radius-sm);
   width: fit-content;
   font-weight: 600;
 }
@@ -106,7 +106,7 @@
 
 .icon_wrapper {
   background-color: var(--clr-light-accent);
-  border-radius: var(--radius-small);
+  border-radius: var(--radius-sm);
   padding: 1rem;
   display: flex;
   place-items: center;

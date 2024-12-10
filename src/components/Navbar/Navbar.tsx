@@ -1,4 +1,5 @@
 'use client'
+import { useAuth } from '@clerk/nextjs'
 import clsx from 'clsx'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -7,6 +8,8 @@ import styles from './styles.module.css'
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [shouldAnimate, setShouldAnimate] = useState(false)
+
+  const { userId, signOut } = useAuth()
 
   function handleClick() {
     console.log('handleClick')
@@ -33,9 +36,16 @@ export default function Navbar() {
         </div>
       </div>
       <div className={styles.links_wrapper_2}>
-        <Link href='/signup' className={styles.link}>
-          Login / Register
-        </Link>
+        {userId ? (
+          <button className={styles.nav_button} onClick={() => signOut()}>
+            Sign Out
+          </button>
+        ) : (
+          <Link href='/signup' className={styles.link}>
+            Login / Register
+          </Link>
+        )}
+
         <div className={styles.vertical_divider} />
         <button className={styles.nav_button}>List Property</button>
       </div>
@@ -88,7 +98,7 @@ export default function Navbar() {
           </a>
         </div>
 
-        <button
+        {/* <button
           className={clsx(
             styles.nav_button_2,
             !shouldAnimate
@@ -99,7 +109,7 @@ export default function Navbar() {
           )}
         >
           List Property
-        </button>
+        </button> */}
       </div>
     </div>
   )

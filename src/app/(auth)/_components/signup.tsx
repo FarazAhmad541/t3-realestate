@@ -7,13 +7,15 @@ import { useSignUp } from '@clerk/nextjs'
 import { isClerkAPIResponseError } from '@clerk/nextjs/errors'
 import { zodResolver } from '@hookform/resolvers/zod'
 import clsx from 'clsx'
+import { EyeIcon, EyeOffIcon, LoaderCircle } from 'lucide-react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import ToastContainer from '~/components/Toast/ToastContainer/ToastContainer'
+import useToast from '~/hooks/useToast'
 import styles from '../auth.module.css'
-
-import { EyeIcon, EyeOffIcon } from 'lucide-react'
 
 const SignUpSchema = z.object({
   email: z.string().email(),
@@ -34,7 +36,8 @@ export default function SignUp() {
   })
 
   const { signUp, isLoaded, setActive } = useSignUp()
-
+  const { toasts, removeToast, addToast } = useToast()
+  const router = useRouter()
   const [inputType, setInputType] = useState<'password' | 'text'>('password')
   const [isPending, setIsPending] = useState(false)
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
@@ -82,17 +85,40 @@ export default function SignUp() {
     }
 
     try {
-      await signUp.create({ emailAddress: email, password: password })
-
-      await signUp.prepareEmailAddressVerification({
-        strategy: 'email_link',
-        redirectUrl: 'http://localhost:3000/signup/verify-email',
+      const { status, createdSessionId } = await signUp.create({
+        emailAddress: email,
+        password: password,
       })
+      if (status === 'complete' && createdSessionId) {
+        await setActive({ session: createdSessionId })
+        router.push('/')
+      }
     } catch (err: any) {
+      console.log(err)
       if (isClerkAPIResponseError(err)) {
         console.log(err.errors[0].message)
+        addToast(err.errors[0].message, 'error')
       }
       setIsPending(false)
+    }
+  }
+
+  const handleGoogleSignUp = async () => {
+    if (!isLoaded) return
+
+    try {
+      // Use the Clerk SDK to authenticate with Google and redirect the user
+      await signUp.authenticateWithRedirect({
+        strategy: 'oauth_google',
+        redirectUrl: '/sso-callback',
+        redirectUrlComplete: '/',
+      })
+    } catch (err) {
+      if (isClerkAPIResponseError(err)) {
+        console.log(JSON.stringify(err, null, 2))
+        addToast(err.errors[0].message, 'error')
+        return
+      }
     }
   }
 
@@ -190,22 +216,26 @@ export default function SignUp() {
             <p className={styles.error}>{errors.confirmPassword.message}</p>
           )}
         </div>
-
-        <div className={styles.field_contianer}>
-          <button type='submit' className={styles.button} disabled={isPending}>
-            Sign up
-          </button>
-        </div>
+        <button type='submit' className={styles.button} disabled={isPending}>
+          {isPending && <LoaderCircle className={styles.spinner} />}
+          <p className={styles.button_text}>Sign up</p>
+        </button>
 
         <div className={styles.divider} />
 
         <p>Or connect with</p>
 
-        <button type='button' className={styles.google}>
+        <button
+          type='button'
+          className={styles.google}
+          onClick={handleGoogleSignUp}
+        >
           <Image src='/google.png' width={25} height={25} alt='google' />
           <p className={styles.google_text}>Google</p>
         </button>
       </form>
+
+      <ToastContainer toasts={toasts} removeToast={removeToast} />
     </div>
   )
 }

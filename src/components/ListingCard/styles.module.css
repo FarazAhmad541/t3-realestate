@@ -4,7 +4,7 @@
   min-width: 300px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   position: relative;
-  border-radius: var(--radius-medium);
+  border-radius: var(--radius-md);
   overflow: hidden;
   cursor: pointer;
 }
@@ -66,7 +66,7 @@
   color: var(--clr-dark);
   padding: 0.25rem 0.75rem;
   font-size: var(--fs-200);
-  border-radius: var(--radius-medium);
+  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   gap: var(--space-xs);
@@ -140,7 +140,7 @@
   padding: 0.75rem 1rem;
   font-size: var(--fs-300);
   font-weight: 600;
-  border-radius: var(--radius-medium);
+  border-radius: var(--radius-md);
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
@@ -167,7 +167,7 @@
   background-color: var(--clr-dark-transparent);
   color: var(--clr-light);
   padding: 0.5rem;
-  border-radius: var(--radius-small);
+  border-radius: var(--radius-sm);
   transition: all 0.3s ease;
 }
 .favorite_icon:hover {
@@ -196,6 +196,6 @@
     width: 100%;
     margin: auto;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    border-radius: var(--radius-small);
+    border-radius: var(--radius-sm);
   }
 }

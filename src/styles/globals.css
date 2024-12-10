@@ -31,6 +31,7 @@
   --clr-primary: hsl(220, 100%, 45%);
   --clr-primary-hover: hsl(220, 100%, 40%);
   --clr-primary-accent: hsl(220, 100%, 90%);
+  --clr-primary-disabled: hsl(220, 100%, 70%);
 
   --clr-danger: hsl(0, 84%, 60%);
 
@@ -38,9 +39,9 @@
 
   --radius: 0.5rem;
 
-  --radius-small: calc(var(--radius) - 4px);
-  --radius-medium: calc(var(--radius) - 2px);
-  --radius-large: var(--radius);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
 
   /* Base Spacing Units in rem */
 
