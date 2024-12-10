@@ -1,9 +1,9 @@
-import PropertyDetails from './_components/PropertyDetails/PropertyDetailsPage/Propertydetails'
+import PropertyDetails from './_components/PropertyDetails/PropertyDetailsPage/Propertydetails';
 
 export default function Page() {
-  return (
-    <div>
-      <PropertyDetails />
-    </div>
-  )
+    return (
+        <div>
+            <PropertyDetails />
+        </div>
+    );
 }

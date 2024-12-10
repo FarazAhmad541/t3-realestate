@@ -1,7 +1,7 @@
 'use client'
 
 /**
- * There is a problem with the state update
+ * There is a bug with the state update
  * When user clicks Signup link in Nav while still on Signin page
  * The state is not updated and the SignIn tab remains active
  */
@@ -10,15 +10,12 @@ import clsx from 'clsx'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
-import ToastContainer from '~/components/Toast/ToastContainer/ToastContainer'
-import useToast from '~/hooks/useToast'
 import styles from './auth.module.css'
 export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const { toasts, removeToast } = useToast()
   const pathname = usePathname()
   const [active, setActive] = useState(pathname)
   return (

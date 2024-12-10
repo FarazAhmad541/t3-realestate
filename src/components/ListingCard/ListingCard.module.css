@@ -1,0 +1,200 @@
+.property_card {
+    min-width: 500px;
+    margin: 0 auto;
+    min-width: 300px;
+    position: relative;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.card_content {
+    padding: 0;
+}
+
+.image_container {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.property_image {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    transition: all 0.3s ease;
+}
+
+.overlay {
+    scale: 1.05;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--clr-dark);
+    opacity: 0;
+}
+
+.property_card:hover .property_image {
+    scale: 1.05;
+}
+
+.property_card:hover .overlay {
+    opacity: 0.2;
+}
+
+.nav_button {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
+.sale_label {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background-color: var(--clr-light);
+    color: var(--clr-dark);
+    padding: 0.25rem 0.75rem;
+    font-size: var(--fs-200);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.property_type_label {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    background-color: var(--clr-light);
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: var(--fs-200);
+}
+
+.details_container {
+    padding: 1rem;
+}
+
+.price_area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.price {
+    font-size: var(--fs-700);
+    font-weight: 700;
+}
+
+.property_info {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3xl);
+    margin-bottom: 1rem;
+    margin-left: 0.2rem;
+}
+
+.bedroom_info,
+.bathroom_info,
+.area_info,
+.location_info {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+.location_info {
+    margin-bottom: 1rem;
+}
+
+.icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--clr-dark-muted);
+}
+
+.contact_buttons {
+    display: flex;
+    gap: var(--space-sm);
+    justify-content: space-between;
+}
+
+.contact_buttons > button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+    background-color: var(--clr-light);
+    color: var(--clr-dark);
+    border: 1px solid var(--clr-dark-accent);
+    padding: 0.75rem 1rem;
+    font-size: var(--fs-300);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    flex: 1;
+    z-index: 10;
+}
+.contact_buttons > button:hover {
+    background-color: var(--clr-primary);
+    color: var(--clr-light);
+}
+
+.button_icon {
+    width: 1.25rem;
+    height: auto;
+}
+
+.favorite_icon {
+    position: absolute;
+    width: 2.25rem;
+    height: auto;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+    background-color: var(--clr-dark-transparent);
+    color: var(--clr-light);
+    padding: 0.5rem;
+    border-radius: var(--radius-sm);
+    transition: all 0.3s ease;
+}
+.favorite_icon:hover {
+    scale: 1.1;
+}
+
+@media screen and (max-width: 500px) {
+    .property_card {
+        width: 100%;
+        max-width: 100%;
+    }
+    .contact_buttons > button {
+        font-size: var(--fs-300);
+        font-weight: 800;
+        gap: var(--space-sm);
+        padding: 0.75rem 1rem;
+    }
+    .button_icon {
+        width: 1rem;
+        height: auto;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .property_card {
+        width: 100%;
+        margin: auto;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        border-radius: var(--radius-sm);
+    }
+}
