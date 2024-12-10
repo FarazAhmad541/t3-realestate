@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres
+    restart: always
+    shm_size: 128mb
+    volumes:
+      # Named volume for better persistence
+      - postgres_data:/var/lib/postgresql/data
+      # Separate volume for transaction logs
+      - postgres_logs:/var/log/postgresql
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: realestate
+      POSTGRES_USER: faraz
+      POSTGRES_PASSWORD: example
+    # Add healthcheck
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U faraz -d realestate"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+# Define named volumes
+volumes:
+  postgres_data:
+    driver: local
+  postgres_logs:
+    driver: local

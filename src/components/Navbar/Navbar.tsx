@@ -1,6 +1,7 @@
 'use client'
 import clsx from 'clsx'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useState } from 'react'
 import styles from './styles.module.css'
 export default function Navbar() {
@@ -16,7 +17,7 @@ export default function Navbar() {
   return (
     <div className={styles.navbar}>
       <div className={styles.logo_container}>
-        <a href='/'>
+        <Link href='/'>
           <Image
             alt='Logo'
             src='/logo.svg'
@@ -24,7 +25,7 @@ export default function Navbar() {
             height={50}
             className={styles.logo}
           />
-        </a>
+        </Link>
         <div className={styles.links_wrapper}>
           <a className={styles.link}>Buy</a>
           <div className={styles.vertical_divider} />
@@ -32,12 +33,16 @@ export default function Navbar() {
         </div>
       </div>
       <div className={styles.links_wrapper_2}>
-        <a className={styles.link}>Login / Register</a>
+        <Link href='/signup' className={styles.link}>
+          Login / Register
+        </Link>
         <div className={styles.vertical_divider} />
         <button className={styles.nav_button}>List Property</button>
       </div>
       <div className={styles.mobile_menu_trigger}>
-        <a className={styles.link}>Login / Register</a>
+        <Link href='/signup' className={styles.link}>
+          Login / Register
+        </Link>
         <div
           onClick={handleClick}
           className={clsx(

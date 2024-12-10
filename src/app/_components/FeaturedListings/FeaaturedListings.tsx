@@ -1,4 +1,4 @@
-import ListingCard from '../../../../components/ListingCard/ListingCard'
+import ListingCard from '../../../components/ListingCard/ListingCard'
 import styles from './styles.module.css'
 
 const tags = ['Apartment', 'Studio', 'Room', 'Office']

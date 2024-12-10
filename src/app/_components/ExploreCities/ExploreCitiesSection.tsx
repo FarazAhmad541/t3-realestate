@@ -1,4 +1,4 @@
-import Card from '../../../../components/CityCard/CityCard'
+import Card from '../../../components/CityCard/CityCard'
 import styles from './styles.module.css'
 export default function ExploreCitiesCarousel() {
   return (

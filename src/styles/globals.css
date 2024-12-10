@@ -32,6 +32,8 @@
   --clr-primary-hover: hsl(220, 100%, 40%);
   --clr-primary-accent: hsl(220, 100%, 90%);
 
+  --clr-danger: hsl(0, 84%, 60%);
+
   /* Border Radius */
 
   --radius: 0.5rem;

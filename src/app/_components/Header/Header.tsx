@@ -1,4 +1,4 @@
-import BackgroundImage from '../../../../components/DivWithBackgroundImage'
+import BackgroundImage from '../../../components/DivWithBackgroundImage'
 import SearchForm from '../Header-Form/Form'
 import styles from './styles.module.css'
 export default function Header() {
