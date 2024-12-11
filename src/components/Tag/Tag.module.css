@@ -1,0 +1,23 @@
+.tag {
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-md);
+    font-size: var(--fs-200);
+    font-weight: 600;
+    color: var(--clr-light);
+    width: fit-content;
+}
+
+.Pending {
+    background-color: var(--clr-primary);
+    color: var(--clr-light);
+}
+
+.Approved {
+    background-color: var(--clr-success);
+    color: var(--clr-light);
+}
+
+.Sold {
+    background-color: var(--clr-danger);
+    color: var(--clr-light);
+}

@@ -9,7 +9,8 @@ import {
     price,
     property_for,
     title,
-} from '../../../../data';
+} from '~/app/data';
+
 import styles from './DetailsHeader.module.css';
 
 export default function DetailsHeader() {

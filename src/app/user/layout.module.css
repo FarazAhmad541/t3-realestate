@@ -7,9 +7,7 @@
 }
 
 .container {
-    background-color: var(--clr-light);
-    margin: 3rem;
-    margin-top: 7rem;
+    margin: 7rem 3rem 3rem 3rem;
     flex-grow: 1;
     min-height: calc(100vh - 6rem);
     transition:
@@ -22,4 +20,15 @@
 
 .fullWidth {
     margin-left: 3rem; /* Only the original left margin when sidebar is hidden */
+}
+
+@media screen and (max-width: 1450px) {
+    .container {
+        margin-left: 3rem; /* Only the original left margin when sidebar is hidden */
+    }
+}
+@media screen and (max-width: 500px) {
+    .container {
+        margin: 7rem 0.75rem 3rem 0.75rem;
+    }
 }

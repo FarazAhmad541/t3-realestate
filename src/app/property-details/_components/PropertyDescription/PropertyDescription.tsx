@@ -11,7 +11,8 @@ import {
 
 import { useState } from 'react';
 
-import { description, main_features, room_features } from '../../../../data';
+import { description, main_features, room_features } from '~/app/data';
+
 import MainFeaturesList from './MainFeaturesList';
 import styles from './PropertyDescriptio.module.css';
 import RoomsFeaturesList from './RoomsFeaturesList';

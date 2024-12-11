@@ -2,11 +2,10 @@
 
 import clsx from 'clsx';
 import {
+    BadgePlus,
     ChevronLeft,
     ChevronRight,
-    Heart,
     LayoutDashboard,
-    List,
     LogOut,
     User,
 } from 'lucide-react';
@@ -28,18 +27,26 @@ export default function Sidebar({ isVisible, onToggle }: SidebarProps) {
                 isVisible ? styles.open_menu : styles.close_menu,
             )}
         >
+            <Link
+                href="/user/dashboard"
+                className={clsx(styles.sidenav_link, styles.add_property)}
+            >
+                <BadgePlus className={styles.dashboard_icon} />
+                <p>Add Property</p>
+            </Link>
+            <div className={styles.divider} />
             <Link href="/user/dashboard" className={styles.sidenav_link}>
                 <LayoutDashboard className={styles.dashboard_icon} />
                 <p>Dashboard</p>
             </Link>
-            <Link href="/user/dashboard" className={styles.sidenav_link}>
+            {/* <Link href="/user/dashboard" className={styles.sidenav_link}>
                 <List className={styles.dashboard_icon} />
                 <p>My Properties</p>
             </Link>
             <Link href="/user/dashboard" className={styles.sidenav_link}>
                 <Heart className={styles.dashboard_icon} />
                 <p>Favourites</p>
-            </Link>
+            </Link> */}
             <Link href="/user/dashboard" className={styles.sidenav_link}>
                 <User className={styles.dashboard_icon} />
                 <p>Profile</p>
