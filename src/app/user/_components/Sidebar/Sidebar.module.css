@@ -1,5 +1,7 @@
 .sidebar {
-    position: relative;
+    position: fixed;
+    left: 0;
+    top: 0;
     width: 300px;
     background-color: var(--clr-light);
     padding: var(--space-lg);
@@ -11,7 +13,7 @@
     gap: var(--space-lg);
     justify-content: flex-start;
     color: var(--clr-dark);
-    transform: all 0.3s ease;
+    transition: transform 0.3s ease;
 }
 
 .sidenav_link,
@@ -28,6 +30,7 @@
     width: 100%;
     font-weight: 600;
 }
+
 .sidenav_link:hover,
 .logout_button:hover {
     background-color: var(--clr-primary-accent);
@@ -38,24 +41,27 @@
     top: 4.75rem;
     right: -2.5rem;
     width: 40px;
-    height: 40px;
+    height: 80px;
     border-radius: 0 var(--radius-md) var(--radius-md) 0;
     background-color: var(--clr-light);
     border: none;
     cursor: pointer;
+    z-index: 1001;
 }
 
 .open_menu {
     transform: translateX(0);
-    transition: all 0.3s ease;
 }
 
 .close_menu {
     transform: translateX(-100%);
-    transition: all 0.3s ease;
 }
 
 .logout_button {
     font-size: var(--fs-300);
-    justify-self: flex-end;
+    margin-top: auto;
+}
+
+.dashboard_icon {
+    flex-shrink: 0;
 }

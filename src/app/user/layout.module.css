@@ -1,0 +1,25 @@
+.layout {
+    background-color: var(--clr-light-accent);
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.container {
+    background-color: var(--clr-light);
+    margin: 3rem;
+    margin-top: 7rem;
+    flex-grow: 1;
+    min-height: calc(100vh - 6rem);
+    transition:
+        margin-left 0.3s ease,
+        width 0.3s ease;
+    overflow: auto;
+    margin-left: calc(300px + 3rem); /* Sidebar width + original left margin */
+    border-radius: var(--radius-lg);
+}
+
+.fullWidth {
+    margin-left: 3rem; /* Only the original left margin when sidebar is hidden */
+}

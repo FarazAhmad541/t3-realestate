@@ -11,29 +11,21 @@ import {
     User,
 } from 'lucide-react';
 
-import { useState } from 'react';
-
 import Link from 'next/link';
 
 import styles from './Sidebar.module.css';
 
-export default function Sidebar() {
-    const [isOpen, setIsOpen] = useState(false);
-    const [shouldAnimate, setShouldAnimate] = useState(false);
+interface SidebarProps {
+    isVisible: boolean;
+    onToggle: () => void;
+}
 
-    function handleClick() {
-        setShouldAnimate(true);
-        setIsOpen(!isOpen);
-    }
+export default function Sidebar({ isVisible, onToggle }: SidebarProps) {
     return (
         <div
             className={clsx(
                 styles.sidebar,
-                !shouldAnimate
-                    ? ''
-                    : isOpen
-                      ? styles.open_menu
-                      : styles.close_menu,
+                isVisible ? styles.open_menu : styles.close_menu,
             )}
         >
             <Link href="/user/dashboard" className={styles.sidenav_link}>
@@ -56,8 +48,8 @@ export default function Sidebar() {
                 <LogOut className={styles.dashboard_icon} />
                 <p>Logout</p>
             </button>
-            <button onClick={handleClick} className={styles.menu_trigger}>
-                {isOpen ? (
+            <button onClick={onToggle} className={styles.menu_trigger}>
+                {isVisible ? (
                     <ChevronLeft className={styles.dashboard_icon} />
                 ) : (
                     <ChevronRight className={styles.dashboard_icon} />

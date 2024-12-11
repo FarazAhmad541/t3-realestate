@@ -1,8 +1,5 @@
-/**
- * TODO: The layout is not rendering the dashboard route
- */
-import styles from './dashboard.module.css';
+'use client';
 
 export default function Page() {
-    <div className={styles.container}>Dashboard</div>;
+    return <div></div>;
 }
