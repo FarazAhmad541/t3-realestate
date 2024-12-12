@@ -7,6 +7,7 @@ import { useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { redirect, usePathname } from 'next/navigation';
 
 import { useAuth } from '@clerk/nextjs';
 
@@ -17,6 +18,12 @@ export default function Navbar() {
     const [shouldAnimate, setShouldAnimate] = useState(false);
 
     const { userId, signOut, isLoaded } = useAuth();
+    const pathname = usePathname();
+
+    const isDashboard =
+        pathname.includes('/dashboard') ||
+        pathname.includes('/profile') ||
+        pathname.includes('/new-property');
 
     function handleClick() {
         console.log('handleClick');
@@ -48,27 +55,37 @@ export default function Navbar() {
                         Login / Register
                     </Link>
                 ) : (
-                    <div className={styles.sign_out_wrapper}>
-                        <button
-                            className={styles.sign_out}
-                            onClick={() => signOut()}
-                        >
-                            Sign Out
-                        </button>
-                        <Link
-                            href="/user/dashboard"
-                            className={styles.dashboard}
-                        >
-                            <LayoutDashboard
-                                className={styles.dashboard_icon}
-                            />
-                            <p>Dashboard</p>
-                        </Link>
-                    </div>
+                    !isDashboard && (
+                        <div className={styles.sign_out_wrapper}>
+                            <button
+                                className={styles.sign_out}
+                                onClick={() => {
+                                    signOut();
+                                    redirect('/');
+                                }}
+                            >
+                                Sign Out
+                            </button>
+                            <Link
+                                href={`/users/${userId}/dashboard`}
+                                className={styles.dashboard}
+                            >
+                                <LayoutDashboard
+                                    className={styles.dashboard_icon}
+                                />
+                                <p>Dashboard</p>
+                            </Link>
+                        </div>
+                    )
                 )}
 
                 <div className={styles.vertical_divider} />
-                <button className={styles.nav_button}>List Property</button>
+                <Link
+                    href={`/users/${userId}/new-property`}
+                    className={styles.nav_button}
+                >
+                    List Property
+                </Link>
             </div>
             <div className={styles.mobile_menu_trigger}>
                 <Link href="/signup" className={styles.link}>

@@ -7,7 +7,7 @@
     position: fixed;
     width: 100%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 40;
+    z-index: 100;
     border-bottom: 1px solid var(--clr-dark-accent);
 }
 
@@ -76,11 +76,15 @@
     background-color: var(--clr-primary);
     color: var(--clr-light);
     border: none;
-    padding: 0.75rem 1.5rem;
     font-size: var(--fs-300);
     font-weight: 600;
     border-radius: var(--radius-md);
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1.5rem;
+    gap: var(--space-sm);
 }
 .nav_button:hover,
 .nav_button_2:hover,
@@ -102,15 +106,6 @@
 
 .dashboard_icon {
     width: 1rem;
-}
-.dashboard {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 0.5rem 1.5rem;
-    gap: var(--space-sm);
-    border-radius: var(--radius-md);
 }
 
 .vertical_divider {

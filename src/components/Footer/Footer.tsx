@@ -17,7 +17,10 @@ import styles from './Footer.module.css';
 
 export default function Footer() {
     const pathname = usePathname();
-    const isDashboard = pathname.includes('/user/dashboard');
+    const isDashboard =
+        pathname.includes('/dashboard') ||
+        pathname.includes('/profile') ||
+        pathname.includes('/new-property');
     if (isDashboard) {
         return null;
     }

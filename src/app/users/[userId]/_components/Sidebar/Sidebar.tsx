@@ -11,6 +11,9 @@ import {
 } from 'lucide-react';
 
 import Link from 'next/link';
+import { redirect, usePathname } from 'next/navigation';
+
+import { useAuth, useClerk } from '@clerk/nextjs';
 
 import styles from './Sidebar.module.css';
 
@@ -20,6 +23,10 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ isVisible, onToggle }: SidebarProps) {
+    const { userId } = useAuth();
+    const { signOut } = useClerk();
+    const pathname = usePathname();
+
     return (
         <div
             className={clsx(
@@ -28,14 +35,23 @@ export default function Sidebar({ isVisible, onToggle }: SidebarProps) {
             )}
         >
             <Link
-                href="/user/dashboard"
-                className={clsx(styles.sidenav_link, styles.add_property)}
+                href={`/users/${userId}/new-property`}
+                className={clsx(
+                    styles.sidenav_link,
+                    pathname.includes('/new-property') && styles.active_link,
+                )}
             >
                 <BadgePlus className={styles.dashboard_icon} />
                 <p>Add Property</p>
             </Link>
             <div className={styles.divider} />
-            <Link href="/user/dashboard" className={styles.sidenav_link}>
+            <Link
+                href={`/users/${userId}/dashboard`}
+                className={clsx(
+                    styles.sidenav_link,
+                    pathname.includes('/dashboard') && styles.active_link,
+                )}
+            >
                 <LayoutDashboard className={styles.dashboard_icon} />
                 <p>Dashboard</p>
             </Link>
@@ -47,11 +63,23 @@ export default function Sidebar({ isVisible, onToggle }: SidebarProps) {
                 <Heart className={styles.dashboard_icon} />
                 <p>Favourites</p>
             </Link> */}
-            <Link href="/user/dashboard" className={styles.sidenav_link}>
+            <Link
+                href={`/users/${userId}/dashboard`}
+                className={clsx(
+                    styles.sidenav_link,
+                    pathname.includes('/profile') && styles.active_link,
+                )}
+            >
                 <User className={styles.dashboard_icon} />
                 <p>Profile</p>
             </Link>
-            <button className={styles.logout_button}>
+            <button
+                className={styles.logout_button}
+                onClick={() => {
+                    signOut();
+                    redirect('/');
+                }}
+            >
                 <LogOut className={styles.dashboard_icon} />
                 <p>Logout</p>
             </button>
