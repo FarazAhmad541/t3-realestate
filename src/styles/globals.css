@@ -34,6 +34,8 @@
     --clr-primary-disabled: hsl(220, 100%, 70%);
 
     --clr-danger: hsl(0, 84%, 60%);
+    --clr-danger-accent: hsl(0, 84%, 87%);
+    --clr-danger-text: hsl(0, 84%, 40%);
 
     --clr-success: hsl(141, 71%, 48%);
 
@@ -94,4 +96,16 @@ section {
     width: 100%;
     padding: 8rem 0.75rem;
     margin: auto;
+}
+
+.radio {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
 }

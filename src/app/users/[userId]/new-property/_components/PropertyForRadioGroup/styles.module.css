@@ -1,0 +1,23 @@
+.input_wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+}
+
+.label {
+    background-color: var(--clr-light-accent);
+    border: 1px solid var(--clr-dark-accent);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.active {
+    background-color: var(--clr-primary);
+    border-color: var(--clr-primary);
+    color: var(--clr-light);
+}

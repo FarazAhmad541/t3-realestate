@@ -1,0 +1,201 @@
+.container {
+    width: 100%;
+}
+
+.dropzone {
+    border: 2px dashed var(--clr-dark-muted);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.dragActive {
+    border-color: var(--clr-primary);
+    background-color: var(--light-accent);
+}
+
+.hiddenInput {
+    display: none;
+}
+
+.dragActiveText {
+    color: var(--clr-primary);
+}
+
+.uploadPrompt {
+    color: var(--clr-dark-muted);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-lg);
+    text-align: center;
+}
+
+.dropzone:hover {
+    border-color: var(--clr-primary);
+}
+
+.dropzone:hover .uploadPrompt {
+    color: var(--clr-primary);
+}
+
+.uploadIcon {
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+.errorMessage {
+    color: var(--clr-danger);
+    margin-top: 1rem;
+}
+
+.acceptedImagesSection {
+    margin-top: 2rem;
+}
+
+.fieldTitle {
+    font-size: var(--fs-400);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.imageGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+@media (min-width: 500px) {
+    .imageGrid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 800px) {
+    .imageGrid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (min-width: 1200px) {
+    .imageGrid {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+.imageThumbnail {
+    position: relative;
+    aspect-ratio: 1 / 1;
+}
+
+.imageContainer {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background-color: var(--clr-light);
+}
+
+.thumbnailImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.removeImageButton {
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 9999px;
+    background-color: var(--clr-danger);
+    color: var(--clr-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    cursor: pointer;
+    border: none;
+}
+
+@media (min-width: 768px) {
+    .removeImageButton {
+        opacity: 0;
+    }
+
+    .imageThumbnail:hover .removeImageButton {
+        opacity: 1;
+    }
+}
+
+.removeIcon {
+    width: 1rem;
+    height: 1rem;
+}
+
+.imageNameOverlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.imageName {
+    color: var(--clr-light);
+    font-size: var(--fs-200);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rejectedImagesSection {
+    margin-top: 2rem;
+}
+
+.rejectedFilesList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.rejectedFileItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    border-radius: var(--radius-lg);
+    background-color: var(--clr-danger-accent);
+}
+
+.rejectedFileDetails {
+    flex-grow: 1;
+    margin-right: 1rem;
+}
+
+.rejectedFileName {
+    font-weight: 500;
+    color: var(--clr-danger-text);
+}
+
+.rejectedFileErrors {
+    font-size: 0.875rem;
+    color: var(--clr-danger-text);
+    margin-top: 0.25rem;
+}
+
+.removeRejectedButton {
+    all: unset;
+    color: var(--clr-light);
+    background-color: var(--clr-danger);
+    border-radius: var(--radius-lg);
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+}
