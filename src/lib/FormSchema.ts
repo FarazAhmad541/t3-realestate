@@ -16,6 +16,7 @@ export const PropertyTypeSchema = z.enum([
     'House',
     'Flat',
     'Room',
+    'Plot',
     'Shop',
     'Apartment',
     'Studio',

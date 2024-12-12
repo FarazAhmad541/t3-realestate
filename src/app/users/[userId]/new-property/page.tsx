@@ -1,10 +1,14 @@
 'use client';
 
+import clsx from 'clsx';
+
 import { useForm } from 'react-hook-form';
 
 import styles from './Form.module.css';
+import AreaUnit from './_components/AreaUnit/AreaUnit';
 import PropertyForRadioGroup from './_components/PropertyForRadioGroup/PropertyForRadioGroup';
 import UploadImages from './_components/UploadImages/UploadImages';
+import PropertyType from './_components/propertyType/PropertyType';
 
 export default function Page() {
     const {
@@ -55,6 +59,80 @@ export default function Page() {
             </div>
             <div className={styles.form_section}>
                 <div className={styles.content_wrapper}>
+                    <h1 className={styles.section_title}>Property Details</h1>
+
+                    <div className={styles.field_wrapper}>
+                        <h2 className={styles.form_field_label}>
+                            Property Type
+                        </h2>
+                        <PropertyType register={register} watch={watch} />
+                    </div>
+                    <div
+                        className={clsx(
+                            styles.field_wrapper,
+                            styles.property_area,
+                        )}
+                    >
+                        <h2 className={styles.form_field_label}>Area:</h2>
+                        <input
+                            {...register('area')}
+                            type="number"
+                            id="area"
+                            required
+                            aria-label="Property area"
+                            min={100}
+                            step={0.01}
+                            className={styles.input}
+                        />
+                    </div>
+                    <div
+                        className={clsx(styles.field_wrapper, styles.area_unit)}
+                    >
+                        <h2 className={styles.form_field_label}>Area Unit</h2>
+                        <AreaUnit register={register} watch={watch} />
+                    </div>
+                    <div
+                        className={clsx(
+                            styles.field_wrapper,
+                            styles.property_price,
+                        )}
+                    >
+                        <h2 className={styles.form_field_label}>Price:</h2>
+                        <input
+                            {...register('price')}
+                            type="number"
+                            id="price"
+                            required
+                            aria-label="Property price"
+                            min={100000}
+                            step={10000}
+                            className={styles.input}
+                        />
+                    </div>
+                    <div
+                        className={clsx(
+                            styles.field_wrapper,
+                            styles.price_calulation,
+                        )}
+                    >
+                        <h2
+                            className={styles.form_field_label}
+                            style={{ color: 'var(--clr-light)' }}
+                        >
+                            .{' '}
+                        </h2>
+                        <input
+                            type="text"
+                            disabled
+                            value="Rs 200,00,000"
+                            id="price"
+                            required
+                            aria-label="Property price"
+                            min={100000}
+                            step={10000}
+                            className={styles.input}
+                        />
+                    </div>
                     <div className={styles.field_wrapper}>
                         <h2 className={styles.form_field_label}>
                             Upload Relevant Images:

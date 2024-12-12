@@ -2,7 +2,6 @@
     background-color: var(--clr-light-accent);
     display: flex;
     width: 100vw;
-    height: 100vh;
     overflow: hidden;
 }
 
@@ -16,6 +15,7 @@
     overflow: auto;
     margin-left: calc(300px + 3rem); /* Sidebar width + original left margin */
     border-radius: var(--radius-lg);
+    overflow: hidden;
 }
 
 .fullWidth {

@@ -19,20 +19,24 @@
 
 .section_title {
     font-size: var(--fs-800);
-    font-weight: 700;
+    grid-column: 1 / span all;
+    font-weight: 600;
     color: var(--clr-dark);
 }
 
 .content_wrapper {
     grid-column: 1 / span all;
-    display: flex;
+    /* display: flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: flex-start;
-    gap: var(--space-lg);
+    justify-content: flex-start; */
+    display: grid;
+    grid-template-columns: subgrid;
+    gap: var(--space-2xl);
 }
 .field_wrapper {
     width: 100%;
+    grid-column: 1 / span all;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -46,7 +50,7 @@
 }
 
 .input {
-    padding: 1rem;
+    padding: 0.75rem;
     width: 100%;
     max-width: 100%;
     border: 1px solid var(--clr-dark-muted);
@@ -54,6 +58,16 @@
     outline: none;
     font-size: var(--fs-500);
     font-weight: 500;
+}
+
+.property_area,
+.property_price {
+    grid-column: 1 / span all;
+}
+
+.area_unit,
+.price_calulation {
+    grid-column: 1 / span all;
 }
 
 @media screen and (min-width: 500px) {
@@ -80,5 +94,14 @@
     }
     .content_wrapper {
         grid-column: 3 / span 8;
+    }
+    .property_area,
+    .property_price {
+        grid-column: 1 / span 4;
+    }
+
+    .area_unit,
+    .price_calulation {
+        grid-column: 5 / span 4;
     }
 }

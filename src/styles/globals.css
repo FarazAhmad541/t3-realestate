@@ -97,6 +97,11 @@ section {
     padding: 8rem 0.75rem;
     margin: auto;
 }
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
 .radio {
     position: absolute;
