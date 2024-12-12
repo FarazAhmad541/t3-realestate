@@ -1,7 +1,8 @@
 import { X } from 'lucide-react';
+
 import React, { useEffect } from 'react';
 
-import styles from './styles.module.css';
+import styles from './Toast.module.css';
 
 interface ToastProps {
     id: string;
