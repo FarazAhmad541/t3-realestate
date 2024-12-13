@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { UseFormRegister } from 'react-hook-form';
 
 import { MainFeaturesSchema } from '~/lib/FormSchema';
 
@@ -6,10 +6,13 @@ import styles from './AmenitiesSelector.module.css';
 
 const MainFeatures = Object.keys(MainFeaturesSchema.shape) as string[];
 
-export default function AmenitiesSelector() {
-    const { register, watch } = useForm();
-    const amenities = watch('amenities');
-    console.log('amenities', amenities);
+type AmenitiesSelectorProps = {
+    register: UseFormRegister<any>;
+};
+
+export default function AmenitiesSelector({
+    register,
+}: AmenitiesSelectorProps) {
     return (
         <div className={styles.container}>
             {MainFeatures.map((feature) => {

@@ -5,7 +5,6 @@ import { AreaUnitSchema } from '~/lib/FormSchema';
 import styles from './AreaUnit.module.css';
 
 const areaUnit = AreaUnitSchema._def.innerType.options;
-console.log(areaUnit);
 
 type AreaUnitProps = {
     register: UseFormRegister<any>;

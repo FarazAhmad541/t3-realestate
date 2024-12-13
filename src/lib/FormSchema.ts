@@ -49,7 +49,7 @@ export const RoomsSchema = z.object({
 
 //  Schema for Listing form
 export const FormSchema = z.object({
-    property_for: z.enum(['rent', 'sell']),
+    property_for: z.enum(['for_rent', 'for_sell']),
     title: z.string().trim().min(1, 'Title is required'),
     description: z.string().trim().min(1, 'Description is required'),
     property_type: PropertyTypeSchema,

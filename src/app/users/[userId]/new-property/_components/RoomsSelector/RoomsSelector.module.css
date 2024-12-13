@@ -55,10 +55,10 @@
         display: grid;
         grid-template-columns: repeat(4, 1fr);
     }
-    .field_wrapper:nth-child(odd) {
+    .field_wrapper:nth-child(even) {
         grid-column: 1 / span 2;
     }
-    .field_wrapper:nth-child(even) {
+    .field_wrapper:nth-child(odd) {
         grid-column: 3 / span 2;
     }
 }

@@ -1,14 +1,18 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
+import { z } from 'zod';
 
 import { useForm } from 'react-hook-form';
+
+import { FormSchema } from '~/lib/FormSchema';
 
 import styles from './Form.module.css';
 import AmenitiesSelector from './_components/AmenitiesSelector/AmenitiesSelector';
 import AreaUnit from './_components/AreaUnit/AreaUnit';
-import RoomSelector from './_components/Features/RoomsSelector';
 import PropertyForRadioGroup from './_components/PropertyForRadioGroup/PropertyForRadioGroup';
+import RoomSelector from './_components/RoomsSelector/RoomsSelector';
 import SelectCity from './_components/SelectCity/SelectCity';
 import UploadImages from './_components/UploadImages/UploadImages';
 import PropertyType from './_components/propertyType/PropertyType';
@@ -19,11 +23,24 @@ export default function Page() {
         watch,
         setValue,
         formState: { errors },
-        control,
-    } = useForm();
+        handleSubmit,
+    } = useForm<z.infer<typeof FormSchema>>({
+        resolver: async (data, context, options) => {
+            console.log('formData', data);
+            console.log(
+                'validation result',
+                await zodResolver(FormSchema)(data, context, options),
+            );
+            return zodResolver(FormSchema)(data, context, options);
+        },
+    });
+
+    const onSubmit = (data: z.infer<typeof FormSchema>) => {
+        console.log('data', data);
+    };
 
     return (
-        <form action="" className={styles.form}>
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
             <div className={styles.form_section}>
                 <div className={styles.content_wrapper}>
                     <h1 className={styles.section_title}>
@@ -79,12 +96,11 @@ export default function Page() {
                     >
                         <h2 className={styles.form_field_label}>Area:</h2>
                         <input
-                            {...register('area')}
+                            {...register('area', { valueAsNumber: true })}
                             type="number"
                             id="area"
                             required
                             aria-label="Property area"
-                            min={100}
                             step={0.01}
                             className={styles.input}
                         />
@@ -103,7 +119,7 @@ export default function Page() {
                     >
                         <h2 className={styles.form_field_label}>Price:</h2>
                         <input
-                            {...register('price')}
+                            {...register('price', { valueAsNumber: true })}
                             type="number"
                             id="price"
                             required
@@ -147,7 +163,11 @@ export default function Page() {
                             Number of Rooms:
                         </h2>
 
-                        <RoomSelector control={control} />
+                        <RoomSelector
+                            register={register}
+                            setValue={setValue}
+                            watch={watch}
+                        />
                     </div>
 
                     <div className={styles.field_wrapper}>
@@ -155,7 +175,7 @@ export default function Page() {
                             Amenities and Features:
                         </h2>
 
-                        <AmenitiesSelector />
+                        <AmenitiesSelector register={register} />
                     </div>
 
                     <div className={styles.field_wrapper}>
@@ -216,7 +236,7 @@ export default function Page() {
                         <h2 className={styles.form_field_label}>Mobile:</h2>
                         <input
                             type="tel"
-                            {...register('mobile')}
+                            {...register('phone')}
                             id="mobile"
                             aria-label="Mobile number"
                             required
@@ -238,6 +258,9 @@ export default function Page() {
                     </div>
                 </div>
             </div>
+            <button type="submit" className={styles.submit_button}>
+                Submit For Review
+            </button>
         </form>
     );
 }
