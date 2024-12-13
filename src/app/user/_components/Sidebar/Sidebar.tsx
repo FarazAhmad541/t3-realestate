@@ -35,7 +35,7 @@ export default function Sidebar({ isVisible, onToggle }: SidebarProps) {
             )}
         >
             <Link
-                href={`/users/${userId}/new-property`}
+                href={`/user/new-property`}
                 className={clsx(
                     styles.sidenav_link,
                     pathname.includes('/new-property') && styles.active_link,
@@ -46,7 +46,7 @@ export default function Sidebar({ isVisible, onToggle }: SidebarProps) {
             </Link>
             <div className={styles.divider} />
             <Link
-                href={`/users/${userId}/dashboard`}
+                href={`/user/dashboard`}
                 className={clsx(
                     styles.sidenav_link,
                     pathname.includes('/dashboard') && styles.active_link,
@@ -64,7 +64,7 @@ export default function Sidebar({ isVisible, onToggle }: SidebarProps) {
                 <p>Favourites</p>
             </Link> */}
             <Link
-                href={`/users/${userId}/dashboard`}
+                href={`/user/dashboard`}
                 className={clsx(
                     styles.sidenav_link,
                     pathname.includes('/profile') && styles.active_link,

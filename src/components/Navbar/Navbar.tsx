@@ -67,7 +67,7 @@ export default function Navbar() {
                                 Sign Out
                             </button>
                             <Link
-                                href={`/users/${userId}/dashboard`}
+                                href={`/user/dashboard`}
                                 className={styles.dashboard}
                             >
                                 <LayoutDashboard
@@ -80,10 +80,7 @@ export default function Navbar() {
                 )}
 
                 <div className={styles.vertical_divider} />
-                <Link
-                    href={`/users/${userId}/new-property`}
-                    className={styles.nav_button}
-                >
+                <Link href={`/user/new-property`} className={styles.nav_button}>
                     List Property
                 </Link>
             </div>
