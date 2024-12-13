@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 
 import styles from './Form.module.css';
 import AreaUnit from './_components/AreaUnit/AreaUnit';
+import RoomSelector from './_components/Features/RoomsSelector';
 import PropertyForRadioGroup from './_components/PropertyForRadioGroup/PropertyForRadioGroup';
 import UploadImages from './_components/UploadImages/UploadImages';
 import PropertyType from './_components/propertyType/PropertyType';
@@ -16,6 +17,7 @@ export default function Page() {
         watch,
         setValue,
         formState: { errors },
+        control,
     } = useForm();
 
     return (
@@ -63,7 +65,7 @@ export default function Page() {
 
                     <div className={styles.field_wrapper}>
                         <h2 className={styles.form_field_label}>
-                            Property Type
+                            Property Type:
                         </h2>
                         <PropertyType register={register} watch={watch} />
                     </div>
@@ -88,7 +90,7 @@ export default function Page() {
                     <div
                         className={clsx(styles.field_wrapper, styles.area_unit)}
                     >
-                        <h2 className={styles.form_field_label}>Area Unit</h2>
+                        <h2 className={styles.form_field_label}>Area Unit:</h2>
                         <AreaUnit register={register} watch={watch} />
                     </div>
                     <div
@@ -132,6 +134,18 @@ export default function Page() {
                             step={10000}
                             className={styles.input}
                         />
+                    </div>
+                    <div className={clsx(styles.field_wrapper, styles.subgrid)}>
+                        <h2
+                            className={clsx(
+                                styles.form_field_label,
+                                styles.span_full,
+                            )}
+                        >
+                            Additional Information:
+                        </h2>
+
+                        <RoomSelector control={control} />
                     </div>
                     <div className={styles.field_wrapper}>
                         <h2 className={styles.form_field_label}>
