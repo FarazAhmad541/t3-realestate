@@ -39,12 +39,22 @@ export const MainFeaturesSchema = z.object({
 });
 
 export const RoomsSchema = z.object({
-    Bedrooms: z.number().int().positive().optional(),
-    Bathrooms: z.number().int().positive().optional(),
-    'Servant Quarters': z.number().int().positive().optional(),
-    Kitchen: z.number().int().positive().optional(),
-    'Store Rooms': z.number().int().positive().optional(),
-    'Drawing Room': z.number().int().positive().optional(),
+    Bedrooms: z
+        .union([z.number().int().positive(), z.literal('7+')])
+        .optional(),
+    Bathrooms: z
+        .union([z.number().int().positive(), z.literal('6+')])
+        .optional(),
+    'Servant Quarters': z
+        .union([z.number().int().positive(), z.literal('2+')])
+        .optional(),
+    Kitchen: z.union([z.number().int().positive(), z.literal('2+')]).optional(),
+    'Store Rooms': z
+        .union([z.number().int().positive(), z.literal('2+')])
+        .optional(),
+    'Drawing Room': z
+        .union([z.number().int().positive(), z.literal('2+')])
+        .optional(),
 });
 
 //  Schema for Listing form
