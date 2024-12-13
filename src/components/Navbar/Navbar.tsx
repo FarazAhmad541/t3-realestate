@@ -141,18 +141,19 @@ export default function Navbar() {
                     </a>
                 </div>
 
-                {/* <button
-          className={clsx(
-            styles.nav_button_2,
-            !shouldAnimate
-              ? ''
-              : isOpen
-              ? styles.reveal_nav_link
-              : styles.hide_nav_link
-          )}
-        >
-          List Property
-        </button> */}
+                <link
+                    href="/user/new-property"
+                    className={clsx(
+                        styles.nav_button_2,
+                        !shouldAnimate
+                            ? ''
+                            : isOpen
+                              ? styles.reveal_nav_link
+                              : styles.hide_nav_link,
+                    )}
+                >
+                    List Property
+                </link>
             </div>
         </div>
     );
