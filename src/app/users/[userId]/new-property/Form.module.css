@@ -17,6 +17,7 @@
     padding: 2rem 0.75rem;
     border-radius: var(--radius-lg);
     border: 1px solid var(--clr-dark-accent);
+    box-shadow: 0 0 10px hsl(0, 0%, 0%, 0.1);
 }
 
 .section_title {
@@ -63,12 +64,17 @@
 }
 
 .property_area,
-.property_price {
+.property_price,
+.cities,
+.email,
+.landline {
     grid-column: 1 / span all;
 }
 
 .area_unit,
-.price_calulation {
+.price_calulation,
+.location,
+.mobile {
     grid-column: 1 / span all;
 }
 
@@ -98,12 +104,17 @@
         grid-column: 3 / span 8;
     }
     .property_area,
-    .property_price {
+    .property_price,
+    .cities,
+    .email,
+    .landline {
         grid-column: 1 / span 4;
     }
 
     .area_unit,
-    .price_calulation {
+    .price_calulation,
+    .location,
+    .mobile {
         grid-column: 5 / span 4;
     }
 }

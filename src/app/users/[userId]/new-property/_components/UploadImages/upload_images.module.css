@@ -53,10 +53,6 @@
     margin-top: 1rem;
 }
 
-.acceptedImagesSection {
-    margin-top: 2rem;
-}
-
 .fieldTitle {
     font-size: var(--fs-400);
     font-weight: 600;
@@ -156,8 +152,12 @@
     text-overflow: ellipsis;
 }
 
-.rejectedImagesSection {
+.rejectedImagesSection,
+.acceptedImagesSection {
     margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
 }
 
 .rejectedFilesList {

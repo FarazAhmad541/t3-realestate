@@ -30,26 +30,21 @@ export const AreaUnitSchema = z
     .default('sqft');
 
 export const MainFeaturesSchema = z.object({
-    'Security Cameras': z.boolean(),
-    'Parking Space': z.boolean(),
-    'Central Heating': z.boolean(),
-    'Central Air Conditioning': z.boolean(),
-    'Electricity Backup': z.boolean(),
-    'Lawn / Garden': z.boolean(),
+    'Security Cameras': z.boolean().default(false),
+    'Parking Space': z.boolean().default(false),
+    'Central Heating': z.boolean().default(false),
+    'Central Air Conditioning': z.boolean().default(false),
+    'Electricity Backup': z.boolean().default(false),
+    'Lawn / Garden': z.boolean().default(false),
 });
 
 export const RoomsSchema = z.object({
-    Bedrooms: z.number().int().positive(),
-    Bathrooms: z.number().int().positive(),
-    'Servant Quarters': z.number().int().positive(),
-    Kitchen: z.number().int().positive(),
-    'Store Rooms': z.number().int().positive(),
-    'Drawing Room': z.number().int().positive(),
-});
-
-const AmenitiesSchema = z.object({
-    'Main Features': MainFeaturesSchema,
-    Rooms: RoomsSchema,
+    Bedrooms: z.number().int().positive().optional(),
+    Bathrooms: z.number().int().positive().optional(),
+    'Servant Quarters': z.number().int().positive().optional(),
+    Kitchen: z.number().int().positive().optional(),
+    'Store Rooms': z.number().int().positive().optional(),
+    'Drawing Room': z.number().int().positive().optional(),
 });
 
 //  Schema for Listing form
@@ -58,7 +53,8 @@ export const FormSchema = z.object({
     title: z.string().trim().min(1, 'Title is required'),
     description: z.string().trim().min(1, 'Description is required'),
     property_type: PropertyTypeSchema,
-    amenitiesSchema: AmenitiesSchema,
+    amenities: MainFeaturesSchema,
+    rooms: RoomsSchema,
     area: z.number().positive().min(1, 'Area is required'),
     area_unit: AreaUnitSchema,
     price: z.number().positive().min(1, 'Price is required'),

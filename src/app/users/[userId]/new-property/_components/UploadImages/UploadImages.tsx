@@ -120,7 +120,7 @@ export default function UploadImages({
             )}
 
             {files.length > 0 && (
-                <div className="form_field_wrapper">
+                <div className={styles.acceptedImagesSection}>
                     <h2 className="form_field_label">Accepted Images</h2>
                     <div className={styles.imageGrid}>
                         {files.map((file) => (
