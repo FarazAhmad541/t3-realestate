@@ -12,9 +12,11 @@
     width: 100%;
     display: grid;
     grid-template-columns: repeat(1, 1fr);
-    gap: var(--space-lg);
+    gap: (--space-lg);
     background-color: var(--clr-light);
     padding: 2rem 0.75rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--clr-dark-accent);
 }
 
 .section_title {

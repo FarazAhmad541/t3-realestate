@@ -5,11 +5,12 @@ import clsx from 'clsx';
 import { useForm } from 'react-hook-form';
 
 import styles from './Form.module.css';
+import AmenitiesSelector from './_components/AmenitiesSelector/AmenitiesSelector';
 import AreaUnit from './_components/AreaUnit/AreaUnit';
-import RoomSelector from './_components/Features/RoomsSelector';
 import PropertyForRadioGroup from './_components/PropertyForRadioGroup/PropertyForRadioGroup';
+import PropertyType from './_components/PropertyType/PropertyType';
+import RoomSelector from './_components/RoomsSelector/RoomsSelector';
 import UploadImages from './_components/UploadImages/UploadImages';
-import PropertyType from './_components/propertyType/PropertyType';
 
 export default function Page() {
     const {
@@ -142,11 +143,20 @@ export default function Page() {
                                 styles.span_full,
                             )}
                         >
-                            Additional Information:
+                            Number of Rooms:
                         </h2>
 
                         <RoomSelector control={control} />
                     </div>
+
+                    <div className={styles.field_wrapper}>
+                        <h2 className={styles.form_field_label}>
+                            Amenities and Features:
+                        </h2>
+
+                        <AmenitiesSelector />
+                    </div>
+
                     <div className={styles.field_wrapper}>
                         <h2 className={styles.form_field_label}>
                             Upload Relevant Images:
