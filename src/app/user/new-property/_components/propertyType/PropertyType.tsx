@@ -7,8 +7,6 @@ import { PropertyTypeSchema } from '~/lib/FormSchema';
 import styles from './PropertyType.module.css';
 
 const propertyTypes = PropertyTypeSchema.options;
-console.log(propertyTypes);
-
 type PropertyTypeProps = {
     register: UseFormRegister<any>;
     watch: UseFormWatch<any>;

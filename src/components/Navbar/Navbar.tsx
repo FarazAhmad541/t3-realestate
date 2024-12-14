@@ -141,7 +141,7 @@ export default function Navbar() {
                     </a>
                 </div>
 
-                <link
+                <Link
                     href="/user/new-property"
                     className={clsx(
                         styles.nav_button_2,
@@ -153,7 +153,7 @@ export default function Navbar() {
                     )}
                 >
                     List Property
-                </link>
+                </Link>
             </div>
         </div>
     );
