@@ -124,6 +124,7 @@ export default function Navbar() {
                                   ? styles.reveal_nav_link
                                   : styles.hide_nav_link,
                         )}
+                        onClick={() => setIsOpen(false)}
                     >
                         Buy
                     </a>
@@ -136,6 +137,7 @@ export default function Navbar() {
                                   ? styles.reveal_nav_link
                                   : styles.hide_nav_link,
                         )}
+                        onClick={() => setIsOpen(false)}
                     >
                         Rent
                     </a>
@@ -151,6 +153,7 @@ export default function Navbar() {
                               ? styles.reveal_nav_link
                               : styles.hide_nav_link,
                     )}
+                    onClick={() => setIsOpen(false)}
                 >
                     List Property
                 </Link>

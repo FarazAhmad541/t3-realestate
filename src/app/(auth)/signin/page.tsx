@@ -106,6 +106,25 @@ export default function SignUp() {
         setIsPending(false);
     };
 
+    const handleGoogleSignIn = async () => {
+        if (!isLoaded) return null;
+        try {
+            // Use the Clerk SDK to authenticate with Google and redirect the user
+            await signIn.authenticateWithRedirect({
+                strategy: 'oauth_google',
+                redirectUrl: '/sso-callback',
+                redirectUrlComplete: '/',
+            });
+        } catch (err) {
+            if (isClerkAPIResponseError(err)) {
+                console.log(JSON.stringify(err, null, 2));
+                addToast(err.errors[0].message, 'error');
+                return;
+            }
+            console.log(JSON.stringify(err, null, 2));
+        }
+    };
+
     const onSubmit = async (data: z.infer<typeof SignInSchema>) => {
         await handleSignIn(data);
     };
@@ -176,7 +195,11 @@ export default function SignUp() {
 
                 <p>Or connect with</p>
 
-                <button type="button" className={styles.google}>
+                <button
+                    type="button"
+                    className={styles.google}
+                    onClick={handleGoogleSignIn}
+                >
                     <Image
                         src="/google.png"
                         width={25}

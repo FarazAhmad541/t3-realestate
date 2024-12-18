@@ -16,6 +16,10 @@ import RoomSelector from './_components/RoomsSelector/RoomsSelector';
 import SelectCity from './_components/SelectCity/SelectCity';
 import UploadImages from './_components/UploadImages/UploadImages';
 import PropertyType from './_components/propertyType/PropertyType';
+import { handleImagesUpload } from './_utils/handleImagesUpload';
+import createListing from './actions/createListing';
+import deleteListing from './actions/deleteListing';
+import getSignedUrls from './actions/getSignedUrls';
 
 export default function Page() {
     const {
@@ -25,18 +29,47 @@ export default function Page() {
         formState: { errors },
         handleSubmit,
     } = useForm<z.infer<typeof FormSchema>>({
-        resolver: async (data, context, options) => {
-            console.log('formData', data);
-            console.log(
-                'validation result',
-                await zodResolver(FormSchema)(data, context, options),
-            );
-            return zodResolver(FormSchema)(data, context, options);
-        },
+        resolver: zodResolver(FormSchema),
     });
 
-    const onSubmit = (data: z.infer<typeof FormSchema>) => {
-        console.log('data', data);
+    const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+        // First create listing in database to get the listing_id that will be used during image uplaod
+        const response = await createListing(data);
+        if (response) {
+            try {
+                const { listing_id, author_id } = response;
+
+                // If and occurs during creating listing, abort the process
+                if (!listing_id || !author_id) {
+                    throw new Error('Error creating listing');
+                }
+
+                // Get the signed URLs for each image in the 'data' object
+                const { signedUrls } = await getSignedUrls({
+                    listing_id,
+                    noOfImages: data.images.length,
+                });
+
+                // If and occurs during getting signed urls, abort the process
+                if (!signedUrls) {
+                    throw new Error('Error getting signed urls');
+                }
+
+                // Upload the images to AWS
+                await handleImagesUpload({
+                    images: data.images,
+                    signedUrls: signedUrls,
+                    listing_id: listing_id,
+                });
+            } catch (error) {
+                // Delete the listing if error occurs during image upload or listing creation
+                await deleteListing({
+                    listing_id: response.listing_id,
+                    author_id: response.author_id,
+                });
+                console.log(error);
+            }
+        }
     };
 
     return (

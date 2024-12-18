@@ -19,8 +19,6 @@ import useToast from '~/hooks/useToast';
 
 import styles from '../auth.module.css';
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 const SignUpSchema = z.object({
     email: z.string().email(),
     password: z.string().min(8),
