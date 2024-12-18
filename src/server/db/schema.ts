@@ -108,3 +108,13 @@ export const propertyImages = createTable('property_images', {
     listing_id: uuid('listing_id').notNull(),
     url: text('url').notNull(),
 });
+
+export const users = createTable('users', {
+    id: varchar('id').primaryKey().notNull(),
+    first_name: text('first_name'),
+    last_name: text('last_name'),
+    email: text('email').notNull(),
+    auth_provider: text('auth_provider'),
+    created_at: timestamp('created_at').defaultNow().notNull(),
+    updated_at: timestamp('updated_at'),
+});
