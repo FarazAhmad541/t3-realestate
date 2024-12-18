@@ -63,6 +63,11 @@
     font-weight: 500;
 }
 
+.invalid {
+    border: none;
+    outline: 1px solid var(--clr-danger);
+}
+
 .property_area,
 .property_price,
 .cities,
@@ -93,6 +98,12 @@
     gap: var(--space-md);
     margin-top: var(--space-lg);
     align-self: flex-start;
+}
+
+.error {
+    color: var(--clr-danger);
+    font-size: var(--fs-300);
+    font-weight: 500;
 }
 
 @media screen and (min-width: 500px) {

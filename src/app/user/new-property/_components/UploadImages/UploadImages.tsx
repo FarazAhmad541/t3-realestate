@@ -18,7 +18,8 @@ type UploadImagesProps = {
     register: UseFormRegister<any>;
     setValue: UseFormSetValue<any>;
     watch: UseFormWatch<any>;
-    errors: any;
+    errors?: any;
+    clearErrors: any;
 };
 
 type FileWithPreview = File & {
@@ -30,6 +31,7 @@ export default function UploadImages({
     setValue,
     watch,
     errors,
+    clearErrors,
 }: UploadImagesProps) {
     const [files, setFiles] = useState<FileWithPreview[]>([]);
     const [rejectedFiles, setRejectedFiles] = useState<FileRejection[]>([]);
@@ -49,6 +51,7 @@ export default function UploadImages({
                 );
                 setFiles((prevFiles) => [...prevFiles, ...newFiles]);
                 setValue('images', acceptedFiles as File[]);
+                clearErrors('images');
             }
 
             if (fileRejections?.length) {
@@ -113,10 +116,9 @@ export default function UploadImages({
                     </p>
                 )}
             </div>
+
             {errors.images && (
-                <p role="alert" className={styles.errorMessage}>
-                    {errors.images.message}
-                </p>
+                <span className={styles.error}>{errors.images.message}</span>
             )}
 
             {files.length > 0 && (

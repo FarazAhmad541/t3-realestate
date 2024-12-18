@@ -1,34 +1,46 @@
 import { z } from 'zod';
 
-//  Images Schema
+// Image Schema
 const imageSchema = z
-    .instanceof(File)
+    .instanceof(File, { message: 'Each image must be a valid file.' })
     .refine((file) => file.size <= 5 * 1024 * 1024, {
-        // 5MB size limit
-        message: 'Each image must be less than 5MB',
+        message: 'Each image must be less than 5MB.',
     })
     .refine((file) => ['image/jpeg', 'image/png'].includes(file.type), {
-        message: 'Only image files (JPEG, PNG) are allowed',
+        message: 'Only JPEG and PNG image formats are allowed.',
     });
 
-// Define the sub-options for each property type
-export const PropertyTypeSchema = z.enum([
-    'House',
-    'Flat',
-    'Room',
-    'Plot',
-    'Shop',
-    'Apartment',
-    'Studio',
-    'Office',
-    'Farmhouse',
-]);
+// Property Type Enum
+export const PropertyTypeSchema = z.enum(
+    [
+        'House',
+        'Flat',
+        'Room',
+        'Plot',
+        'Shop',
+        'Apartment',
+        'Studio',
+        'Office',
+        'Farmhouse',
+    ],
+    {
+        errorMap: () => ({
+            message: 'Property Type is required and must be valid.',
+        }),
+    },
+);
 
-//  Schema for Area Unit
+// Area Unit Schema
 export const AreaUnitSchema = z
-    .enum(['sqft', 'sqm', 'sqyd', 'marla', 'kanal'])
+    .enum(['sqft', 'sqm', 'sqyd', 'marla', 'kanal'], {
+        errorMap: () => ({
+            message:
+                'Area unit must be one of sqft, sqm, sqyd, marla, or kanal.',
+        }),
+    })
     .default('sqft');
 
+// Main Features Schema
 export const MainFeaturesSchema = z.object({
     'Security Cameras': z.boolean().default(false),
     'Parking Space': z.boolean().default(false),
@@ -38,6 +50,7 @@ export const MainFeaturesSchema = z.object({
     'Lawn / Garden': z.boolean().default(false),
 });
 
+// Rooms Schema
 export const RoomsSchema = z.object({
     Bedrooms: z
         .union([z.number().int().positive(), z.literal('7+')])
@@ -57,31 +70,75 @@ export const RoomsSchema = z.object({
         .optional(),
 });
 
-//  Schema for Listing form
+// Listing Form Schema
 export const FormSchema = z.object({
-    property_for: z.enum(['for_rent', 'for_sell']),
-    title: z.string().trim().min(1, 'Title is required'),
-    description: z.string().trim().min(1, 'Description is required'),
+    property_for: z.enum(['for_rent', 'for_sell'], {
+        errorMap: () => ({
+            message: 'Property purpose is required (for rent or for sell).',
+        }),
+    }),
+    title: z.string().trim().min(1, { message: 'Title is required.' }),
+    description: z
+        .string()
+        .trim()
+        .min(1, { message: 'Description is required.' }),
     property_type: PropertyTypeSchema,
     amenities: MainFeaturesSchema,
     rooms: RoomsSchema,
-    area: z.number().positive().min(1, 'Area is required'),
+    area: z
+        .number({ invalid_type_error: 'Area is required.' })
+        .positive({ message: 'Area must be greater than 0.' })
+        .min(1, { message: 'Area is required.' }),
     area_unit: AreaUnitSchema,
-    price: z.number().positive().min(1, 'Price is required'),
+    price: z
+        .number({ invalid_type_error: 'Price is Required.' })
+        .positive({ message: 'Price must be greater than 0.' })
+        .min(1, { message: 'Price is required.' }),
     images: z
-        .array(imageSchema)
-        .min(6, { message: 'You must upload at least 2 images' })
-        .max(25, 'Maximum 6 images are allowed')
-        .nonempty({ message: 'Images are required' }),
-    city: z.string().min(1, 'City is required'),
-    location: z.string().trim().toLowerCase().min(1, 'Location is required'),
-    latitude: z.number().optional(),
-    longitude: z.number().optional(),
-    email: z.string().email({ message: 'Email is invalid' }),
-    phone: z.string().min(10, { message: 'Phone number is invalid' }),
+        .array(imageSchema, {
+            required_error:
+                'Images are required. Please upload at least 6 images.',
+            invalid_type_error:
+                'Images are required. Please upload at least 6 images.',
+        })
+        .min(6, { message: 'You must upload at least 6 images.' })
+        .max(25, { message: 'You can upload a maximum of 25 images.' }),
+    city: z.string().trim().min(1, { message: 'City is required.' }),
+    location: z
+        .string()
+        .trim()
+        .toLowerCase()
+        .min(1, { message: 'Location is required.' }),
+    latitude: z
+        .number()
+        .optional()
+        .refine(
+            (value) => value === undefined || (value >= -90 && value <= 90),
+            {
+                message: 'Latitude must be between -90 and 90.',
+            },
+        ),
+    longitude: z
+        .number()
+        .optional()
+        .refine(
+            (value) => value === undefined || (value >= -180 && value <= 180),
+            {
+                message: 'Longitude must be between -180 and 180.',
+            },
+        ),
+    email: z.string().email({ message: 'A valid email address is required.' }),
+    phone: z
+        .string()
+        .min(10, { message: 'A valid phone number is required.' })
+        .regex(/^(?:\+92|0)3[0-9]{9}$/, {
+            message: 'Enter a valid Pakistani mobile number.',
+        }),
     landline: z
         .string()
-        .min(10, { message: 'Landline number is invalid' })
+        .regex(/^\d+$/, {
+            message: 'Landline number must contain only digits.',
+        })
         .optional(),
 });
 

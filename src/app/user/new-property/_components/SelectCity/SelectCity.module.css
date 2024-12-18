@@ -18,6 +18,11 @@
     border-color: var(--clr-primary);
 }
 
+.invalid {
+    border: none;
+    outline: 1px solid var(--clr-danger);
+}
+
 .dropdown {
     position: absolute;
     z-index: 10;

@@ -28,6 +28,7 @@ export default function Page() {
         setValue,
         formState: { errors },
         handleSubmit,
+        clearErrors,
     } = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
     });
@@ -35,40 +36,38 @@ export default function Page() {
     const onSubmit = async (data: z.infer<typeof FormSchema>) => {
         // First create listing in database to get the listing_id that will be used during image uplaod
         const response = await createListing(data);
-        if (response) {
-            try {
-                const { listing_id, author_id } = response;
 
-                // If and occurs during creating listing, abort the process
-                if (!listing_id || !author_id) {
-                    throw new Error('Error creating listing');
-                }
+        // Thow error and abord the process if there is error on the first step
+        if (!response) {
+            throw new Error('Error creating listing');
+        }
+        try {
+            const { listing_id } = response;
 
-                // Get the signed URLs for each image in the 'data' object
-                const { signedUrls } = await getSignedUrls({
-                    listing_id,
-                    noOfImages: data.images.length,
-                });
+            // Get the signed URLs for each image in the 'data' object
+            const { signedUrls } = await getSignedUrls({
+                listing_id,
+                noOfImages: data.images.length,
+            });
 
-                // If and occurs during getting signed urls, abort the process
-                if (!signedUrls) {
-                    throw new Error('Error getting signed urls');
-                }
-
-                // Upload the images to AWS
-                await handleImagesUpload({
-                    images: data.images,
-                    signedUrls: signedUrls,
-                    listing_id: listing_id,
-                });
-            } catch (error) {
-                // Delete the listing if error occurs during image upload or listing creation
-                await deleteListing({
-                    listing_id: response.listing_id,
-                    author_id: response.author_id,
-                });
-                console.log(error);
+            // If and occurs during getting signed urls, abort the process
+            if (!signedUrls) {
+                throw new Error('Error getting signed urls');
             }
+
+            // Upload the images to AWS
+            await handleImagesUpload({
+                images: data.images,
+                signedUrls: signedUrls,
+                listing_id: listing_id,
+            });
+        } catch (error) {
+            // Delete the listing if error occurs during image upload or listing creation
+            await deleteListing({
+                listing_id: response.listing_id,
+                author_id: response.author_id,
+            });
+            console.log(error);
         }
     };
 
@@ -87,16 +86,28 @@ export default function Page() {
                             register={register}
                             watch={watch}
                         />
+                        {errors.property_for && (
+                            <span className={styles.error}>
+                                {errors.property_for.message}
+                            </span>
+                        )}
                     </div>
                     <div className={styles.field_wrapper}>
                         <h2 className={styles.form_field_label}>Title:</h2>
                         <input
                             {...register('title')}
                             type="text"
-                            required
                             aria-label="Property title"
-                            className={styles.input}
+                            className={clsx(
+                                styles.input,
+                                errors.title && styles.invalid,
+                            )}
                         />
+                        {errors.title && (
+                            <span className={styles.error}>
+                                {errors.title.message}
+                            </span>
+                        )}
                     </div>
                     <div className={styles.field_wrapper}>
                         <h2 className={styles.form_field_label}>
@@ -104,10 +115,17 @@ export default function Page() {
                         </h2>
                         <textarea
                             {...register('description')}
-                            required
                             aria-label="Property description"
-                            className={styles.input}
+                            className={clsx(
+                                styles.input,
+                                errors.description && styles.invalid,
+                            )}
                         />
+                        {errors.description && (
+                            <span className={styles.error}>
+                                {errors.description.message}
+                            </span>
+                        )}
                     </div>
                 </div>
             </div>
@@ -120,6 +138,11 @@ export default function Page() {
                             Property Type:
                         </h2>
                         <PropertyType register={register} watch={watch} />
+                        {errors.property_type && (
+                            <span className={styles.error}>
+                                {errors.property_type.message}
+                            </span>
+                        )}
                     </div>
                     <div
                         className={clsx(
@@ -132,11 +155,18 @@ export default function Page() {
                             {...register('area', { valueAsNumber: true })}
                             type="number"
                             id="area"
-                            required
                             aria-label="Property area"
                             step={0.01}
-                            className={styles.input}
+                            className={clsx(
+                                styles.input,
+                                errors.area && styles.invalid,
+                            )}
                         />
+                        {errors.area && (
+                            <span className={styles.error}>
+                                {errors.area.message}
+                            </span>
+                        )}
                     </div>
                     <div
                         className={clsx(styles.field_wrapper, styles.area_unit)}
@@ -155,12 +185,19 @@ export default function Page() {
                             {...register('price', { valueAsNumber: true })}
                             type="number"
                             id="price"
-                            required
                             aria-label="Property price"
                             min={100000}
                             step={10000}
-                            className={styles.input}
+                            className={clsx(
+                                styles.input,
+                                errors.price && styles.invalid,
+                            )}
                         />
+                        {errors.price && (
+                            <span className={styles.error}>
+                                {errors.price.message}
+                            </span>
+                        )}
                     </div>
                     <div
                         className={clsx(
@@ -179,7 +216,6 @@ export default function Page() {
                             disabled
                             value="Rs 200,00,000"
                             id="price"
-                            required
                             aria-label="Property price"
                             min={100000}
                             step={10000}
@@ -221,6 +257,7 @@ export default function Page() {
                             setValue={setValue}
                             watch={watch}
                             errors={errors}
+                            clearErrors={clearErrors}
                         />
                     </div>
                 </div>
@@ -234,7 +271,13 @@ export default function Page() {
                             register={register}
                             watch={watch}
                             setValue={setValue}
+                            errors={errors}
                         />
+                        {errors.city && (
+                            <span className={styles.error}>
+                                {errors.city.message}
+                            </span>
+                        )}
                     </div>
                     <div
                         className={clsx(styles.field_wrapper, styles.location)}
@@ -245,9 +288,16 @@ export default function Page() {
                             {...register('location')}
                             id="location"
                             aria-label="Location"
-                            required
-                            className={styles.input}
+                            className={clsx(
+                                styles.input,
+                                errors.location && styles.invalid,
+                            )}
                         />
+                        {errors.location && (
+                            <span className={styles.error}>
+                                {errors.location.message}
+                            </span>
+                        )}
                     </div>
                 </div>
             </div>
@@ -259,11 +309,18 @@ export default function Page() {
                         <input
                             {...register('email')}
                             type="email"
-                            required
                             id="email"
                             aria-label="Email"
-                            className={styles.input}
+                            className={clsx(
+                                styles.input,
+                                errors.email && styles.invalid,
+                            )}
                         />
+                        {errors.email && (
+                            <span className={styles.error}>
+                                {errors.email.message}
+                            </span>
+                        )}
                     </div>
                     <div className={clsx(styles.field_wrapper, styles.mobile)}>
                         <h2 className={styles.form_field_label}>Mobile:</h2>
@@ -272,9 +329,16 @@ export default function Page() {
                             {...register('phone')}
                             id="mobile"
                             aria-label="Mobile number"
-                            required
-                            className={styles.input}
+                            className={clsx(
+                                styles.input,
+                                errors.phone && styles.invalid,
+                            )}
                         />
+                        {errors.phone && (
+                            <span className={styles.error}>
+                                {errors.phone.message}
+                            </span>
+                        )}
                     </div>
                     <div
                         className={clsx(styles.field_wrapper, styles.landline)}
@@ -283,7 +347,6 @@ export default function Page() {
                         <input
                             {...register('landline')}
                             type="tel"
-                            required
                             id="landline"
                             aria-label="landline number"
                             className={styles.input}

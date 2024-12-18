@@ -160,6 +160,12 @@
     gap: var(--space-md);
 }
 
+.error {
+    color: var(--clr-danger);
+    font-size: var(--fs-300);
+    font-weight: 500;
+}
+
 .rejectedFilesList {
     display: flex;
     flex-direction: column;

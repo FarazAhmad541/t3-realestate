@@ -1,5 +1,7 @@
 'use client';
 
+import clsx from 'clsx';
+
 import { useEffect, useState } from 'react';
 import {
     UseFormRegister,
@@ -21,6 +23,7 @@ interface SelectLocationProps {
     watch: UseFormWatch<any>;
     setValue: UseFormSetValue<any>;
     placeholder?: string;
+    errors?: any;
 }
 
 const SelectCity = ({
@@ -28,6 +31,7 @@ const SelectCity = ({
     register,
     watch,
     setValue,
+    errors,
 }: SelectLocationProps) => {
     const [filteredCities, setFilteredCities] = useState<City[]>(cities);
     const [isOpen, setIsOpen] = useState(false);
@@ -61,7 +65,7 @@ const SelectCity = ({
                 }}
                 onClick={() => setIsOpen(true)}
                 placeholder={placeholder}
-                className={styles.input}
+                className={clsx(styles.input, errors?.city && styles.invalid)}
                 aria-label="Select a city"
                 aria-expanded={isOpen}
                 role="combobox"
