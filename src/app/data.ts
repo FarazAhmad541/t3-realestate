@@ -23,35 +23,39 @@ The property boasts superior construction with premium materials, featuring marb
 
 Ideal for discerning families looking for a premium living experience in Islamabad's most coveted neighborhood. This property represents an exceptional investment opportunity in one of the capital's most desirable locations.
 
-Viewing by appointment only.`
-export const title = '1 Kanal House For Sale in Islamabad'
+Viewing by appointment only.`;
 
-export const property_for = 'for_sale'
+export const title = '1 Kanal House For Sale in Islamabad';
 
-export const area = '1 Kanal'
-export const city = 'Islamabad'
-export const location = 'F-8'
-export const image = '/hero-background.jpg'
-export const price = 100000
-export const bedrooms = 5
-export const bathrooms = 6
-export const phoneNumber = '+1 (123) 456-7890'
-export const email = 'example@example.com'
-export const whatsappNumber = '+1 (123) 456-7890'
-export const main_features = [
-  'Security Cameras',
-  'Parking Space',
-  'Central Heating',
-  'Central Air Conditioning',
-  'Electricity Backup',
-  'Lawn / Garden',
-]
+export const property_for: 'for_sale' | 'for_rent' = 'for_sale';
+export const availability: 'un_sold' | 'sold' | 'not_rented' | 'rented' =
+    'un_sold';
+export const status: 'pending' | 'approved' | 'rejected' = 'pending';
 
-export const room_features = {
-  Bedrooms: 5,
-  Bathrooms: 6,
-  'Servant Quarters': 2,
-  Kitchen: 2,
-  'Store Rooms': 2,
-  'Drawing Room': 1,
-}
+export const area: 'sqft' | 'sqm' | 'sqyd' | 'marla' | 'kanal' = 'sqft';
+export const city = 'Islamabad';
+export const location = 'F-8';
+export const image = '/hero-background.jpg';
+export const price = 100000;
+export const bedrooms = 5;
+export const bathrooms = 6;
+export const phoneNumber = '+1 (123) 456-7890';
+export const email = 'example@example.com';
+export const whatsappNumber = '+1 (123) 456-7890';
+export const amenities = [
+    'Security Cameras',
+    'Parking Space',
+    'Central Heating',
+    'Central Air Conditioning',
+    'Electricity Backup',
+    'Lawn / Garden',
+];
+
+export const rooms = {
+    Bedrooms: 5,
+    Bathrooms: 6,
+    'Servant Quarters': 2,
+    Kitchen: 2,
+    'Store Rooms': 2,
+    'Drawing Room': 1,
+};

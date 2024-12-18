@@ -1,12 +1,15 @@
 'use server';
 
+import { InferInsertModel } from 'drizzle-orm';
 import { z } from 'zod';
 
 import { auth } from '@clerk/nextjs/server';
 
 import { FormSchema } from '~/lib/FormSchema';
 import { db } from '~/server/db';
-import { propertyListing, statusEnum } from '~/server/db/schema';
+import { propertyListing } from '~/server/db/schema';
+
+type PropertyListingInsert = InferInsertModel<typeof propertyListing>;
 
 export default async function createListing(data: z.infer<typeof FormSchema>) {
     const FormSchemaWithoutImages = FormSchema.omit({ images: true });
@@ -20,10 +23,11 @@ export default async function createListing(data: z.infer<typeof FormSchema>) {
     }
 
     try {
-        const newListing = {
+        const newListing: PropertyListingInsert = {
             ...parsedData.data,
             author_id: userId,
-            status: statusEnum.enumValues[0], // pending
+            status: 'pending',
+            availability: 'un_sold',
         };
         const response = await db
             .insert(propertyListing)

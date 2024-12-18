@@ -38,6 +38,13 @@ export const propertyListingTypeEnum = pgEnum('property_for', [
 
 export const statusEnum = pgEnum('status', ['pending', 'approved', 'rejected']);
 
+export const availabilityEnum = pgEnum('availability', [
+    'un_sold',
+    'sold',
+    'not_rented',
+    'rented',
+]);
+
 // Main Property Listing Table
 export const propertyListing = createTable(
     'property_listing',
@@ -84,6 +91,9 @@ export const propertyListing = createTable(
         updated_at: timestamp('updated_at'),
         // Listing status
         status: statusEnum('status').default('pending').notNull(),
+        availability: availabilityEnum('availability')
+            .default('un_sold')
+            .notNull(),
     },
     (table) => {
         return {

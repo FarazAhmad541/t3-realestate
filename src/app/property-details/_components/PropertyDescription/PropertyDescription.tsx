@@ -11,7 +11,7 @@ import {
 
 import { useState } from 'react';
 
-import { description, main_features, room_features } from '~/app/data';
+import { amenities, description, rooms } from '~/app/data';
 
 import MainFeaturesList from './MainFeaturesList';
 import styles from './PropertyDescriptio.module.css';
@@ -45,18 +45,18 @@ export default function PropertyDescription() {
                     </button>
                     <h3 className={styles.sub_heading}>Amenities & Features</h3>
                     <div className={styles.amenities_section}>
-                        <div className={styles.main_features}>
+                        <div className={styles.amenities}>
                             <h4 className={styles.feature_heading}>
                                 Main Features
                             </h4>
-                            <div className={styles.main_features_list}>
-                                <MainFeaturesList List={main_features} />
+                            <div className={styles.amenities_list}>
+                                <MainFeaturesList List={amenities} />
                             </div>
                         </div>
                         <div className={styles.rooms}>
                             <h4 className={styles.feature_heading}>Rooms</h4>
                             <div className={styles.rooms_list}>
-                                <RoomsFeaturesList List={room_features} />
+                                <RoomsFeaturesList List={rooms} />
                             </div>
                         </div>
                     </div>
