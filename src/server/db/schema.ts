@@ -1,4 +1,5 @@
 import {
+    boolean,
     pgEnum,
     pgTableCreator,
     real,
@@ -54,7 +55,9 @@ export const propertyListing = createTable(
         title: text('title').notNull(),
         description: text('description').notNull(),
         property_type: propertyTypeEnum('property_type').notNull(),
-        author_id: varchar('author_id').notNull(),
+        author_id: varchar('author_id')
+            .references(() => users.id, { onDelete: 'cascade' })
+            .notNull(),
         // Amenities (as a JSONB column for flexible boolean features)
         amenities: text('amenities').$type<{
             'Security Cameras': boolean;
@@ -105,8 +108,11 @@ export const propertyListing = createTable(
 // Property Images Table
 export const propertyImages = createTable('property_images', {
     id: uuid('id').defaultRandom().primaryKey(),
-    listing_id: uuid('listing_id').notNull(),
+    listing_id: uuid('listing_id')
+        .references(() => propertyListing.id, { onDelete: 'cascade' })
+        .notNull(),
     url: text('url').notNull(),
+    is_cover: boolean('is_cover').default(false).notNull(),
 });
 
 export const users = createTable('users', {
