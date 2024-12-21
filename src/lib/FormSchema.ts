@@ -1,6 +1,11 @@
 import { z } from 'zod';
 
 // Image Schema
+
+const imageWithCover = z.object({
+    isCover: z.boolean().default(false),
+});
+
 const imageSchema = z
     .instanceof(File, { message: 'Each image must be a valid file.' })
     .refine((file) => file.size <= 5 * 1024 * 1024, {
@@ -9,6 +14,10 @@ const imageSchema = z
     .refine((file) => ['image/jpeg', 'image/png'].includes(file.type), {
         message: 'Only JPEG and PNG image formats are allowed.',
     });
+
+const imageWithCoverSchema = z.intersection(imageSchema, imageWithCover);
+
+export type ImageWithCover = z.infer<typeof imageWithCoverSchema>;
 
 // Property Type Enum
 export const PropertyTypeSchema = z.enum(
@@ -95,7 +104,7 @@ export const FormSchema = z.object({
         .positive({ message: 'Price must be greater than 0.' })
         .min(1, { message: 'Price is required.' }),
     images: z
-        .array(imageSchema, {
+        .array(imageWithCoverSchema, {
             required_error:
                 'Images are required. Please upload at least 6 images.',
             invalid_type_error:

@@ -1,3 +1,5 @@
+import { ImageWithCover } from '~/lib/FormSchema';
+
 import addImagesToDatabase from '../actions/addImagesToDatabase';
 
 export async function handleImagesUpload({
@@ -5,7 +7,7 @@ export async function handleImagesUpload({
     signedUrls,
     listing_id,
 }: {
-    images: File[];
+    images: ImageWithCover[];
     signedUrls: string[];
     listing_id: string;
 }) {
@@ -29,6 +31,7 @@ export async function handleImagesUpload({
                 await addImagesToDatabase({
                     listing_id,
                     url: url.split('?')[0],
+                    is_cover: image.isCover,
                 });
             }),
         );

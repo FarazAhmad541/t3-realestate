@@ -8,9 +8,11 @@ import { propertyImages } from '~/server/db/schema';
 export default async function addImagesToDatabase({
     listing_id,
     url,
+    is_cover,
 }: {
     listing_id: string;
     url: string;
+    is_cover: boolean;
 }) {
     const { sessionId } = await auth();
     if (!sessionId) {
@@ -22,6 +24,7 @@ export default async function addImagesToDatabase({
         await db.insert(propertyImages).values({
             listing_id: listing_id,
             url,
+            is_cover,
         });
     } catch (error: any) {
         console.log(error.message);

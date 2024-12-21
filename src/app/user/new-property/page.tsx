@@ -30,37 +30,43 @@ export default function Page() {
         handleSubmit,
         clearErrors,
     } = useForm<z.infer<typeof FormSchema>>({
-        resolver: zodResolver(FormSchema),
+        resolver: async (data, context, options) => {
+            console.log('data: >>>>', data);
+            console.log(
+                'validation result: >>>>',
+                await zodResolver(FormSchema)(data, context, options),
+            );
+            return await zodResolver(FormSchema)(data, context, options);
+        },
     });
 
     const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+        console.log('starting listing creation');
         // First create listing in database to get the listing_id that will be used during image uplaod
         const response = await createListing(data);
-
         // Thow error and abord the process if there is error on the first step
         if (!response) {
             throw new Error('Error creating listing');
         }
         try {
             const { listing_id } = response;
-
             // Get the signed URLs for each image in the 'data' object
             const { signedUrls } = await getSignedUrls({
                 listing_id,
                 noOfImages: data.images.length,
             });
-
             // If and occurs during getting signed urls, abort the process
             if (!signedUrls) {
                 throw new Error('Error getting signed urls');
             }
-
+            console.log('uploading images');
             // Upload the images to AWS
             await handleImagesUpload({
                 images: data.images,
                 signedUrls: signedUrls,
                 listing_id: listing_id,
             });
+            console.log('images uploaded');
         } catch (error) {
             // Delete the listing if error occurs during image upload or listing creation
             await deleteListing({

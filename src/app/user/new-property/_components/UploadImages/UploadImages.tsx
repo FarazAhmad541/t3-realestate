@@ -1,6 +1,7 @@
 'use client';
 
-import { ImageUp, X } from 'lucide-react';
+import clsx from 'clsx';
+import { ImageUp, Star, X } from 'lucide-react';
 
 import { useCallback, useEffect, useState } from 'react';
 import { DropEvent, FileRejection, useDropzone } from 'react-dropzone';
@@ -24,6 +25,7 @@ type UploadImagesProps = {
 
 type FileWithPreview = File & {
     preview: string;
+    isCover: boolean;
 };
 
 export default function UploadImages({
@@ -47,8 +49,16 @@ export default function UploadImages({
         (acceptedFiles, fileRejections) => {
             if (acceptedFiles?.length) {
                 const newFiles = acceptedFiles.map((file) =>
-                    Object.assign(file, { preview: URL.createObjectURL(file) }),
+                    Object.assign(file, {
+                        preview: URL.createObjectURL(file),
+                        isCover: false,
+                    }),
                 );
+
+                if (files.length === 0 && newFiles.length > 0) {
+                    newFiles[0].isCover = true;
+                    setValue('coverImage', newFiles[0].name);
+                }
                 setFiles((prevFiles) => [...prevFiles, ...newFiles]);
                 setValue('images', acceptedFiles as File[]);
                 clearErrors('images');
@@ -91,6 +101,35 @@ export default function UploadImages({
         [setValue, images],
     );
 
+    interface FileWithPreview extends File {
+        preview: string;
+        isCover?: boolean;
+    }
+
+    const onSetCover = (file: FileWithPreview) => {
+        try {
+            // Log the incoming file for debugging
+
+            const newfiles = files.map((image) => {
+                // Create a new object that maintains the File properties
+                const imageClone = new File([image], image.name, {
+                    type: image.type,
+                    lastModified: image.lastModified,
+                }) as FileWithPreview;
+
+                // Copy over our custom properties
+                imageClone.preview = image.preview;
+                imageClone.isCover = image.preview === file.preview;
+
+                return imageClone;
+            });
+            setFiles(newfiles);
+            setValue('images', newfiles);
+        } catch (error) {
+            console.error('Error in onSetCover:', error);
+        }
+    };
+
     return (
         <div className={styles.container}>
             <div
@@ -125,11 +164,8 @@ export default function UploadImages({
                 <div className={styles.acceptedImagesSection}>
                     <h2 className="form_field_label">Accepted Images</h2>
                     <div className={styles.imageGrid}>
-                        {files.map((file) => (
-                            <div
-                                key={file.name}
-                                className={styles.imageThumbnail}
-                            >
+                        {files.map((file, index) => (
+                            <div key={index} className={styles.imageThumbnail}>
                                 <div className={styles.imageContainer}>
                                     <Image
                                         src={file.preview}
@@ -146,8 +182,20 @@ export default function UploadImages({
                                     className={styles.removeImageButton}
                                     onClick={() => onRemove(file.name)}
                                     aria-label={`Remove ${file.name}`}
+                                    type="button"
                                 >
                                     <X className={styles.removeIcon} />
+                                </button>
+
+                                <button
+                                    className={clsx(
+                                        styles.cover_button,
+                                        file.isCover && styles.cover_active,
+                                    )}
+                                    onClick={() => onSetCover(file)}
+                                    type="button"
+                                >
+                                    <Star className={styles.removeIcon} />
                                 </button>
                                 <div className={styles.imageNameOverlay}>
                                     <p className={styles.imageName}>
