@@ -29,7 +29,6 @@ export default async function getSignedUrlAction({
         };
     }
 
-    console.log('noOfImages: ', noOfImages);
     const signedUrls = await Promise.all(
         Array(noOfImages)
             .fill(0)
@@ -37,6 +36,7 @@ export default async function getSignedUrlAction({
                 const putObjectCommand = new PutObjectCommand({
                     Bucket: process.env.AWS_BUCKET_NAME!,
                     Key: generateRandomObjectName(listing_id),
+
                     Metadata: {
                         user_id,
                         listing_id: listing_id,

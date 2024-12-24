@@ -77,7 +77,8 @@ const SelectCity = ({
                 <div id="city-list" className={styles.dropdown} role="listbox">
                     {filteredCities.length > 0 ? (
                         filteredCities.map((city) => (
-                            <div
+                            <button
+                                type="button"
                                 key={city.value}
                                 onClick={() => handleSelect(city)}
                                 className={styles.dropdownItem}
@@ -85,7 +86,7 @@ const SelectCity = ({
                                 aria-selected={selectedCity === city.name}
                             >
                                 {city.name}
-                            </div>
+                            </button>
                         ))
                     ) : (
                         <div className={styles.noResults}>No cities found</div>

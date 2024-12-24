@@ -12,13 +12,17 @@ const images = [
     '/hero-background.jpg',
 ];
 
-export default function ImageCarousel() {
+type ImageGridProps = {
+    imagesKeys: string[];
+};
+
+export default function ImageCarousel({ imagesKeys }: ImageGridProps) {
     return (
         <div className={styles.container}>
-            {images.map((image) => (
-                <div key={image} className={styles.image_container}>
+            {imagesKeys.map((key) => (
+                <div key={key} className={styles.image_container}>
                     <Image
-                        src={image}
+                        src={`/api/image/${encodeURIComponent(key)}`}
                         alt="Image"
                         fill
                         sizes="(max-width: 768px) 100vw, 1280px"

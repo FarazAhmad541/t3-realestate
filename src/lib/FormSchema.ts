@@ -2,10 +2,6 @@ import { z } from 'zod';
 
 // Image Schema
 
-const imageWithCover = z.object({
-    isCover: z.boolean().default(false),
-});
-
 const imageSchema = z
     .instanceof(File, { message: 'Each image must be a valid file.' })
     .refine((file) => file.size <= 5 * 1024 * 1024, {
@@ -15,9 +11,7 @@ const imageSchema = z
         message: 'Only JPEG and PNG image formats are allowed.',
     });
 
-const imageWithCoverSchema = z.intersection(imageSchema, imageWithCover);
-
-export type ImageWithCover = z.infer<typeof imageWithCoverSchema>;
+export type ImageSchema = z.infer<typeof imageSchema>;
 
 // Property Type Enum
 export const PropertyTypeSchema = z.enum(
@@ -81,7 +75,7 @@ export const RoomsSchema = z.object({
 
 // Listing Form Schema
 export const FormSchema = z.object({
-    property_for: z.enum(['for_rent', 'for_sell'], {
+    property_for: z.enum(['for_rent', 'for_sale'], {
         errorMap: () => ({
             message: 'Property purpose is required (for rent or for sell).',
         }),
@@ -104,7 +98,7 @@ export const FormSchema = z.object({
         .positive({ message: 'Price must be greater than 0.' })
         .min(1, { message: 'Price is required.' }),
     images: z
-        .array(imageWithCoverSchema, {
+        .array(imageSchema, {
             required_error:
                 'Images are required. Please upload at least 6 images.',
             invalid_type_error:
@@ -112,6 +106,7 @@ export const FormSchema = z.object({
         })
         .min(6, { message: 'You must upload at least 6 images.' })
         .max(25, { message: 'You can upload a maximum of 25 images.' }),
+    main_image: z.string().optional(),
     city: z.string().trim().min(1, { message: 'City is required.' }),
     location: z
         .string()
@@ -152,3 +147,9 @@ export const FormSchema = z.object({
 });
 
 export type FormSchemaType = z.infer<typeof FormSchema>;
+
+export const FormSchemaWithoutImages = FormSchema.omit({ images: true });
+
+export type FormSchemaWithoutImagesType = z.infer<
+    typeof FormSchemaWithoutImages
+>;

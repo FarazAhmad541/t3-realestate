@@ -3,11 +3,15 @@ import ImageGrid from '../ImageGrid/ImagesGrid';
 import PropertyDescription from '../PropertyDescription/PropertyDescription';
 import styles from './PropertyDetails.module.css';
 
-export default function Propertydetails() {
+type PropertydetailsProps = {
+    imagesKeys: string[];
+};
+
+export default function Propertydetails({ imagesKeys }: PropertydetailsProps) {
     return (
         <section className={styles.section}>
             <div className={styles.container}>
-                <ImageGrid />
+                <ImageGrid imagesKeys={imagesKeys} />
                 <DetailsHeader />
                 <PropertyDescription />
             </div>

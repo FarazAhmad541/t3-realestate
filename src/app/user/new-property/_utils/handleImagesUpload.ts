@@ -1,4 +1,6 @@
-import { ImageWithCover } from '~/lib/FormSchema';
+'use client';
+
+import { ImageSchema } from '~/lib/FormSchema';
 
 import addImagesToDatabase from '../actions/addImagesToDatabase';
 
@@ -7,7 +9,7 @@ export async function handleImagesUpload({
     signedUrls,
     listing_id,
 }: {
-    images: ImageWithCover[];
+    images: ImageSchema[];
     signedUrls: string[];
     listing_id: string;
 }) {
@@ -16,22 +18,21 @@ export async function handleImagesUpload({
             // Upload each image to AWS
             images.map(async (image, index) => {
                 const url = signedUrls[index];
-                const response = await fetch(url, {
+                await fetch(url, {
                     method: 'PUT',
                     body: image,
-                    headers: { 'Content-Type': image.type },
+                    headers: {
+                        'Content-Type': image.type,
+                    },
                 });
-                if (!response.ok) {
-                    throw new Error(
-                        `Error uploading image ${index + 1}: ${response.statusText}`,
-                    );
-                }
+
+                console.log('url; ', url.split('?')[0].split('/').pop());
 
                 // Add Image url to the Images table in database if the upload is successful
                 await addImagesToDatabase({
                     listing_id,
-                    url: url.split('?')[0],
-                    is_cover: image.isCover,
+                    s3key: url.split('?')[0].split('/').pop() || '',
+                    image_type: image.type as 'image/jpeg' | 'image/png',
                 });
             }),
         );

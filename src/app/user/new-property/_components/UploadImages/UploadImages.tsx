@@ -4,7 +4,12 @@ import clsx from 'clsx';
 import { ImageUp, Star, X } from 'lucide-react';
 
 import { useCallback, useEffect, useState } from 'react';
-import { DropEvent, FileRejection, useDropzone } from 'react-dropzone';
+import {
+    DropEvent,
+    FileRejection,
+    FileWithPath,
+    useDropzone,
+} from 'react-dropzone';
 import {
     UseFormRegister,
     UseFormSetValue,
@@ -23,44 +28,40 @@ type UploadImagesProps = {
     clearErrors: any;
 };
 
-type FileWithPreview = File & {
-    preview: string;
-    isCover: boolean;
-};
+interface FileWithPreview extends FileWithPath {
+    preview?: string;
+}
 
 export default function UploadImages({
     register,
     setValue,
-    watch,
     errors,
     clearErrors,
 }: UploadImagesProps) {
     const [files, setFiles] = useState<FileWithPreview[]>([]);
     const [rejectedFiles, setRejectedFiles] = useState<FileRejection[]>([]);
-    const images = watch('images') as File[];
-
+    const [coverImage, setCoverImage] = useState<string>('');
     const onDrop = useCallback<
         (
-            acceptedFiles: File[],
+            acceptedFiles: FileWithPreview[],
             fileRejections: FileRejection[],
             event: DropEvent,
         ) => void
     >(
         (acceptedFiles, fileRejections) => {
+            console.log('acceptedFiles', acceptedFiles);
             if (acceptedFiles?.length) {
-                const newFiles = acceptedFiles.map((file) =>
-                    Object.assign(file, {
-                        preview: URL.createObjectURL(file),
-                        isCover: false,
-                    }),
-                );
-
-                if (files.length === 0 && newFiles.length > 0) {
-                    newFiles[0].isCover = true;
-                    setValue('coverImage', newFiles[0].name);
+                const updatedFiles = acceptedFiles.map((file) => {
+                    const newFile = file;
+                    newFile.preview = URL.createObjectURL(file);
+                    return newFile;
+                });
+                setFiles(updatedFiles);
+                setValue('images', updatedFiles);
+                if (coverImage === '') {
+                    setCoverImage(acceptedFiles[0].name);
+                    setValue('main_image', acceptedFiles[0].name);
                 }
-                setFiles((prevFiles) => [...prevFiles, ...newFiles]);
-                setValue('images', acceptedFiles as File[]);
                 clearErrors('images');
             }
 
@@ -71,63 +72,58 @@ export default function UploadImages({
                 ]);
             }
         },
-        [setValue],
+        [files, setValue, clearErrors],
     );
 
     useEffect(() => {
         return () => {
-            files.forEach((file) => URL.revokeObjectURL(file.preview));
+            files.forEach((file) => {
+                if (file.preview) {
+                    URL.revokeObjectURL(file.preview);
+                }
+            });
         };
-    }, [files]);
+    }, []);
+
+    const imageValidator = (file: File) => {
+        if (file.size > 5 * 1024 * 1024) {
+            return {
+                code: 'file-too-large',
+                message: 'File size must be less than 5MB.',
+            };
+        }
+        if (!['image/jpeg', 'image/png'].includes(file.type)) {
+            return {
+                code: 'file-type-invalid',
+                message: 'Only JPEG and PNG image formats are allowed.',
+            };
+        }
+        return null;
+    };
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop,
-        accept: {
-            'image/*': ['.jpeg', '.png'],
-        },
-        maxSize: 1024 * 1000,
+        validator: imageValidator,
     });
 
-    const onRemove = useCallback(
-        (fileName: string) => {
-            setFiles((prevFiles) =>
-                prevFiles.filter((file) => file.name !== fileName),
-            );
-            setValue(
-                'images',
-                (images || []).filter((file: File) => file.name !== fileName),
-            );
-        },
-        [setValue, images],
-    );
-
-    interface FileWithPreview extends File {
-        preview: string;
-        isCover?: boolean;
-    }
-
-    const onSetCover = (file: FileWithPreview) => {
-        try {
-            // Log the incoming file for debugging
-
-            const newfiles = files.map((image) => {
-                // Create a new object that maintains the File properties
-                const imageClone = new File([image], image.name, {
-                    type: image.type,
-                    lastModified: image.lastModified,
-                }) as FileWithPreview;
-
-                // Copy over our custom properties
-                imageClone.preview = image.preview;
-                imageClone.isCover = image.preview === file.preview;
-
-                return imageClone;
-            });
-            setFiles(newfiles);
-            setValue('images', newfiles);
-        } catch (error) {
-            console.error('Error in onSetCover:', error);
+    const onRemove = (name: string) => {
+        const fileToRemove = files.find((file) => file.name === name);
+        if (fileToRemove?.name === coverImage) {
+            setCoverImage(files[0].name);
+            setValue('main_image', files[0].name);
         }
+        if (fileToRemove?.preview) {
+            URL.revokeObjectURL(fileToRemove.preview);
+        }
+        const newFiles = files.filter((file) => file.name !== name);
+
+        setFiles(newFiles);
+        setValue('images', newFiles);
+    };
+
+    const onSetCover = (selectedFile: FileWithPreview) => {
+        setCoverImage(selectedFile.name);
+        setValue('main_image', selectedFile.name);
     };
 
     return (
@@ -163,19 +159,20 @@ export default function UploadImages({
             {files.length > 0 && (
                 <div className={styles.acceptedImagesSection}>
                     <h2 className="form_field_label">Accepted Images</h2>
+                    <p>Click the star icon to select the cover Image</p>
                     <div className={styles.imageGrid}>
                         {files.map((file, index) => (
-                            <div key={index} className={styles.imageThumbnail}>
+                            <div
+                                key={`${file.name}-${index}`}
+                                className={styles.imageThumbnail}
+                            >
                                 <div className={styles.imageContainer}>
                                     <Image
-                                        src={file.preview}
+                                        src={file.preview || ''}
                                         alt={file.name}
                                         width={200}
                                         height={200}
                                         className={styles.thumbnailImage}
-                                        onLoad={() => {
-                                            URL.revokeObjectURL(file.preview);
-                                        }}
                                     />
                                 </div>
                                 <button
@@ -190,7 +187,8 @@ export default function UploadImages({
                                 <button
                                     className={clsx(
                                         styles.cover_button,
-                                        file.isCover && styles.cover_active,
+                                        file.name === coverImage &&
+                                            styles.cover_active,
                                     )}
                                     onClick={() => onSetCover(file)}
                                     type="button"

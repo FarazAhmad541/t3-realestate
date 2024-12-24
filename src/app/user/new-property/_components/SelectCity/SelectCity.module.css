@@ -36,7 +36,10 @@
 }
 
 .dropdownItem {
+    all: unset;
     cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
     padding: var(--space-md) var(--space-lg);
     font-size: var(--fs-400);
 }

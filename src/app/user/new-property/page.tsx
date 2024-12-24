@@ -6,7 +6,7 @@ import { z } from 'zod';
 
 import { useForm } from 'react-hook-form';
 
-import { FormSchema } from '~/lib/FormSchema';
+import { FormSchema, FormSchemaWithoutImages } from '~/lib/FormSchema';
 
 import styles from './Form.module.css';
 import AmenitiesSelector from './_components/AmenitiesSelector/AmenitiesSelector';
@@ -26,7 +26,7 @@ export default function Page() {
         register,
         watch,
         setValue,
-        formState: { errors },
+        formState: { errors, isSubmitting },
         handleSubmit,
         clearErrors,
     } = useForm<z.infer<typeof FormSchema>>({
@@ -42,14 +42,24 @@ export default function Page() {
 
     const onSubmit = async (data: z.infer<typeof FormSchema>) => {
         console.log('starting listing creation');
+        const dataWithoutImages = Object.fromEntries(
+            Object.entries(data).filter(([key]) => key !== 'images'),
+        );
+        const parsedData = FormSchemaWithoutImages.safeParse(dataWithoutImages);
+        if (!parsedData.success) {
+            throw new Error(parsedData.error.message);
+        }
         // First create listing in database to get the listing_id that will be used during image uplaod
-        const response = await createListing(data);
+        const response = await createListing(parsedData.data);
         // Thow error and abord the process if there is error on the first step
         if (!response) {
             throw new Error('Error creating listing');
         }
         try {
             const { listing_id } = response;
+            if (!listing_id) {
+                throw new Error('Error creating listing');
+            }
             // Get the signed URLs for each image in the 'data' object
             const { signedUrls } = await getSignedUrls({
                 listing_id,
@@ -63,8 +73,8 @@ export default function Page() {
             // Upload the images to AWS
             await handleImagesUpload({
                 images: data.images,
-                signedUrls: signedUrls,
-                listing_id: listing_id,
+                signedUrls,
+                listing_id,
             });
             console.log('images uploaded');
         } catch (error) {
@@ -360,8 +370,12 @@ export default function Page() {
                     </div>
                 </div>
             </div>
-            <button type="submit" className={styles.submit_button}>
-                Submit For Review
+            <button
+                type="submit"
+                className={styles.submit_button}
+                disabled={isSubmitting}
+            >
+                {isSubmitting ? 'Submitting' : 'Submit For Review'}
             </button>
         </form>
     );

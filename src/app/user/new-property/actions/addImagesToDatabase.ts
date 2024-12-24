@@ -1,18 +1,23 @@
 'use server';
 
+import { InferInsertModel } from 'drizzle-orm';
+
 import { auth } from '@clerk/nextjs/server';
 
 import { db } from '~/server/db';
-import { propertyImages } from '~/server/db/schema';
+import { imageTypeEnum, propertyImages } from '~/server/db/schema';
+
+type ImageInsertModel = InferInsertModel<typeof propertyImages>;
 
 export default async function addImagesToDatabase({
     listing_id,
-    url,
-    is_cover,
+    s3key,
+
+    image_type,
 }: {
     listing_id: string;
-    url: string;
-    is_cover: boolean;
+    s3key: string;
+    image_type: 'image/jpeg' | 'image/png';
 }) {
     const { sessionId } = await auth();
     if (!sessionId) {
@@ -21,11 +26,13 @@ export default async function addImagesToDatabase({
         };
     }
     try {
-        await db.insert(propertyImages).values({
-            listing_id: listing_id,
-            url,
-            is_cover,
-        });
+        const newImage: ImageInsertModel = {
+            listing_id,
+            s3key,
+            filename: 'filename',
+            image_type: image_type || 'image/jpeg',
+        };
+        await db.insert(propertyImages).values(newImage);
     } catch (error: any) {
         console.log(error.message);
         throw new Error('Error adding images to database');
