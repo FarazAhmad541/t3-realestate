@@ -1,18 +1,18 @@
 .section {
-  background-color: var(--clr-light-accent);
-  padding: var(--space-4xl) 0.75rem;
+    background-color: var(--clr-light);
+    padding: var(--space-4xl) 0.75rem;
 }
 
 .container {
-  max-width: 1280px;
-  margin: 3rem auto;
-  padding: 1.5rem;
-  border-radius: var(--radius-md);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  width: 100%;
-  background-color: var(--clr-light);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    max-width: 1280px;
+    margin: 3rem auto;
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+    background-color: var(--clr-light);
+    /* box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); */
 }

@@ -1,7 +1,10 @@
+'use client';
+
 import { InferSelectModel } from 'drizzle-orm';
 
 import { propertyListing } from '~/server/db/schema';
 
+import { ModalProvider } from '../../_context/modalContext';
 import DetailsHeader from '../DetailsHeader/DetailsHeader';
 import ImageGrid from '../ImageGrid/ImagesGrid';
 import PropertyDescription from '../PropertyDescription/PropertyDescription';
@@ -20,14 +23,16 @@ export default function Propertydetails({
 }: PropertydetailsProps) {
     return (
         <section className={styles.section}>
-            <div className={styles.container}>
-                <ImageGrid imagesKeys={imagesKeys} />
-                <DetailsHeader data={data} />
-                <PropertyDescription
-                    data={data}
-                    authorDetails={authorDetails}
-                />
-            </div>
+            <ModalProvider>
+                <div className={styles.container}>
+                    <ImageGrid imagesKeys={imagesKeys} />
+                    <DetailsHeader data={data} />
+                    <PropertyDescription
+                        data={data}
+                        authorDetails={authorDetails}
+                    />
+                </div>
+            </ModalProvider>
         </section>
     );
 }

@@ -1,4 +1,5 @@
 import PropertyDetails from './_components/PropertyDetailsPage/Propertydetails';
+import { ModalProvider } from './_context/modalContext';
 import getAuthorDetails from './actions/getAuthorDetails';
 import getListingDetails from './actions/getListingDetails';
 import getListingImagesKeys from './actions/getListingImageKeys';

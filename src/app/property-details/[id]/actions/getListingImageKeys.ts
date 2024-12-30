@@ -22,7 +22,7 @@ export default async function getListingImagesKeys(listing_id: string) {
     const keys: string[] = [];
     response.map((item) => {
         if (item.s3Key === mainImageName[0].mainImageKey) {
-            keys[0] = item.s3Key;
+            keys.unshift(item.s3Key);
         } else {
             keys.push(item.s3Key);
         }

@@ -12,7 +12,7 @@ import {
 import Link from 'next/link';
 
 import getListingCardData from '~/app/actions/getListingCardsData';
-import { ImageComponent } from '~/utils/ImageComponent/ImageComponent';
+import { ImageComponent } from '~/components/ImageComponent/ImageComponent';
 
 import styles from './ListingCard.module.css';
 

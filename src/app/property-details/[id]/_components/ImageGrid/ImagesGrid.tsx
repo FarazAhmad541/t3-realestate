@@ -1,42 +1,68 @@
+'use client';
+
 import { Images } from 'lucide-react';
 
-import { ImageComponent } from '~/utils/ImageComponent/ImageComponent';
+import { ModalRenderer } from '~/app/property-details/[id]/_components/ModalRenderer';
+import { useModalContext } from '~/app/property-details/[id]/_context/modalContext';
+import { ModalProvider } from '~/app/property-details/[id]/_context/modalContext';
+import { ImageComponent } from '~/components/ImageComponent/ImageComponent';
 
+import ImagesModal from '../ImagesModal/ImagesModal';
 import styles from './ImageGrid.module.css';
-
-const images = [
-    '/hero-background.jpg',
-    '/image.jpg',
-    '/hero-background.jpg',
-    '/image.jpg',
-    '/hero-background.jpg',
-];
 
 type ImageGridProps = {
     imagesKeys: string[];
 };
 
-export default function ImageCarousel({ imagesKeys }: ImageGridProps) {
+export default function ImagesGrid({ imagesKeys }: ImageGridProps) {
+    const { openModal, closeModal } = useModalContext();
+    // const [isOpen, setIsOpen] = useState(false);
+
+    // function onClose() {
+    //     setIsOpen(false);
+    // }
+
+    // function openModal(e: React.MouseEvent) {
+    //     e.stopPropagation();
+    //     setIsOpen(true);
+    // }
+
     return (
         <div className={styles.container}>
             {imagesKeys.map((key) => (
-                <div key={key} className={styles.image_container}>
+                <div
+                    key={key}
+                    className={styles.image_container}
+                    onClick={() =>
+                        openModal({
+                            content: <ImagesModal imagesKeys={imagesKeys} />,
+                            onClose: () => closeModal(),
+                        })
+                    }
+                >
                     <ImageComponent imageKey={key} className={styles.image} />
-                    {/* <Image
-                        src={`/api/image/${encodeURIComponent(key)}`}
-                        alt="Image"
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        className={styles.image}
-                    /> */}
-
                     <div className={styles.overlay} />
                 </div>
             ))}
-            <a className={styles.see_all}>
+            <a
+                className={styles.see_all}
+                onClick={() =>
+                    openModal({
+                        content: <ImagesModal imagesKeys={imagesKeys} />,
+                        onClose: () => closeModal(),
+                    })
+                }
+            >
                 <Images className={styles.icon} />
                 <p>See All Photos</p>
             </a>
+            <ModalRenderer />
+
+            {/* <ImagesModal
+                isOpen={isOpen}
+                onClose={onClose}
+                imagesKeys={imagesKeys}
+            /> */}
         </div>
     );
 }
