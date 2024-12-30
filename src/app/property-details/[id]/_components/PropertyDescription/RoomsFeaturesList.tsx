@@ -1,5 +1,7 @@
 import { Archive, Bath, Bed, Sofa, User, UtensilsCrossed } from 'lucide-react';
 
+import { Rooms } from '~/server/db/schema';
+
 import styles from './PropertyDescriptio.module.css';
 
 const getRoomFeatureIcon = (feature: string) => {
@@ -21,10 +23,17 @@ const getRoomFeatureIcon = (feature: string) => {
     }
 };
 
-export default function MainFeaturesList({ List }: { List: object }) {
+type RoomsFeaturesListProps = {
+    rooms: Rooms | null;
+};
+
+export default function MainFeaturesList({ rooms }: RoomsFeaturesListProps) {
+    if (!rooms) {
+        return null;
+    }
     return (
         <>
-            {Object.entries(List).map(([feature, value], index) => (
+            {Object.entries(rooms).map(([feature, value], index) => (
                 <div key={index} className={styles.feature_wrapper}>
                     {getRoomFeatureIcon(feature)}
                     <p className={styles.feature_text}>

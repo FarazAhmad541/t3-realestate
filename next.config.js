@@ -10,7 +10,7 @@ const config = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 't3-realestate.s3.amazonaws.com',
+                hostname: 's3.ap-south-1.amazonaws.com',
                 port: '',
                 pathname: '/**',
             },

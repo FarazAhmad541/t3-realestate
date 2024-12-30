@@ -1,19 +1,21 @@
 import { MoveRight } from 'lucide-react';
 
-import BackgroundImage from '../DivWithBackgroundImage';
+import Image from 'next/image';
+
 import styles from './CityCard.module.css';
 
 export default function CityCard() {
     return (
         <a className={styles.card}>
-            <BackgroundImage
-                containerClassName={styles.image_container}
-                imageClassName={styles.card_image}
-                src="/islamabad.jpg"
-                alt="City image"
-            >
-                <div className={styles.overlay} />
-            </BackgroundImage>
+            <div className={styles.image_container}>
+                <Image
+                    src="/islamabad.jpg"
+                    alt="City image"
+                    fill
+                    sizes="(max-width: 768px) 33vw, (max-width: 1024px) 50vw, 100vw"
+                    className={styles.card_image}
+                />
+            </div>
 
             <div className={styles.card_content}>
                 <div className={styles.headings_wrapper}>

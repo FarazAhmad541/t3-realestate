@@ -1,6 +1,6 @@
 import { Images } from 'lucide-react';
 
-import Image from 'next/image';
+import { ImageComponent } from '~/utils/ImageComponent/ImageComponent';
 
 import styles from './ImageGrid.module.css';
 
@@ -21,13 +21,15 @@ export default function ImageCarousel({ imagesKeys }: ImageGridProps) {
         <div className={styles.container}>
             {imagesKeys.map((key) => (
                 <div key={key} className={styles.image_container}>
-                    <Image
+                    <ImageComponent imageKey={key} className={styles.image} />
+                    {/* <Image
                         src={`/api/image/${encodeURIComponent(key)}`}
                         alt="Image"
                         fill
-                        sizes="(max-width: 768px) 100vw, 1280px"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         className={styles.image}
-                    />
+                    /> */}
+
                     <div className={styles.overlay} />
                 </div>
             ))}

@@ -1,24 +1,27 @@
 'use server';
 
-import { InferInsertModel } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 
 import { auth } from '@clerk/nextjs/server';
 
 import { db } from '~/server/db';
-import { imageTypeEnum, propertyImages } from '~/server/db/schema';
+import {
+    PropertyImageInsertSchema,
+    propertyImages,
+    propertyListing,
+} from '~/server/db/schema';
 
-type ImageInsertModel = InferInsertModel<typeof propertyImages>;
+type Props = {
+    imageData: PropertyImageInsertSchema;
+    mainImageName: string;
+};
 
 export default async function addImagesToDatabase({
-    listing_id,
-    s3key,
+    imageData,
+    mainImageName,
+}: Props) {
+    const { listing_id, s3key, filename, image_type } = imageData;
 
-    image_type,
-}: {
-    listing_id: string;
-    s3key: string;
-    image_type: 'image/jpeg' | 'image/png';
-}) {
     const { sessionId } = await auth();
     if (!sessionId) {
         return {
@@ -26,13 +29,20 @@ export default async function addImagesToDatabase({
         };
     }
     try {
-        const newImage: ImageInsertModel = {
+        const newImage: PropertyImageInsertSchema = {
             listing_id,
             s3key,
-            filename: 'filename',
+            filename: filename,
             image_type: image_type || 'image/jpeg',
         };
+
         await db.insert(propertyImages).values(newImage);
+        if (newImage.filename === mainImageName) {
+            await db
+                .update(propertyListing)
+                .set({ main_image: s3key })
+                .where(eq(propertyListing.id, listing_id));
+        }
     } catch (error: any) {
         console.log(error.message);
         throw new Error('Error adding images to database');

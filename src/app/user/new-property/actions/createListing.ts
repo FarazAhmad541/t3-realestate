@@ -1,7 +1,5 @@
 'use server';
 
-import { InferInsertModel } from 'drizzle-orm';
-
 import { auth } from '@clerk/nextjs/server';
 
 import {
@@ -9,10 +7,11 @@ import {
     FormSchemaWithoutImagesType,
 } from '~/lib/FormSchema';
 import { db } from '~/server/db';
-import { propertyListing } from '~/server/db/schema';
+import {
+    PropertyListingInsertSchema,
+    propertyListing,
+} from '~/server/db/schema';
 import generateRandomId from '~/utils/generateRandomId';
-
-type PropertyListingInsert = InferInsertModel<typeof propertyListing>;
 
 export default async function createListing(data: FormSchemaWithoutImagesType) {
     const parsedData = FormSchemaWithoutImages.safeParse(data);
@@ -30,7 +29,7 @@ export default async function createListing(data: FormSchemaWithoutImagesType) {
     }
 
     try {
-        const newListing: PropertyListingInsert = {
+        const newListing: PropertyListingInsertSchema = {
             ...parsedData.data,
             id: id || '',
             author_id: userId,

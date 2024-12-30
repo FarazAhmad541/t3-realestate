@@ -138,12 +138,12 @@ export const FormSchema = z.object({
         .regex(/^(?:\+92|0)3[0-9]{9}$/, {
             message: 'Enter a valid Pakistani mobile number.',
         }),
-    landline: z
+    whatsapp: z
         .string()
-        .regex(/^\d+$/, {
-            message: 'Landline number must contain only digits.',
-        })
-        .optional(),
+        .min(10, { message: 'A valid phone number is required.' })
+        .regex(/^(?:\+92|0)3[0-9]{9}$/, {
+            message: 'Enter a valid WhatsApp number.',
+        }),
 });
 
 export type FormSchemaType = z.infer<typeof FormSchema>;

@@ -1,19 +1,15 @@
+import { InferSelectModel } from 'drizzle-orm';
 import { Bath, Bed, Heart, MapPin, Ruler, Share2 } from 'lucide-react';
 
-import {
-    area,
-    bathrooms,
-    bedrooms,
-    city,
-    location,
-    price,
-    property_for,
-    title,
-} from '~/app/data';
+import { propertyListing } from '~/server/db/schema';
 
 import styles from './DetailsHeader.module.css';
 
-export default function DetailsHeader() {
+type DetailsHeaderProps = {
+    data: InferSelectModel<typeof propertyListing>;
+};
+
+export default function DetailsHeader({ data }: DetailsHeaderProps) {
     return (
         <div className={styles.container}>
             <div className={styles.header}>
@@ -28,12 +24,16 @@ export default function DetailsHeader() {
                             }}
                         />
                         <p className={styles.label_text}>
-                            {property_for === 'for_sale' && 'For Sale'}
+                            {data.property_for === 'for_sale'
+                                ? 'For Sale'
+                                : 'For Rent'}
                         </p>
                     </div>
-                    <h2 className={styles.title}>{title}</h2>
+                    <h2 className={styles.title}>{data.title}</h2>
                 </div>
-                <h3 className={styles.price}>Rs: {price.toLocaleString()}</h3>
+                <h3 className={styles.price}>
+                    Rs: {data.price.toLocaleString()}
+                </h3>
             </div>
             <div className={styles.datails}>
                 <div className={styles.features}>
@@ -41,15 +41,17 @@ export default function DetailsHeader() {
                     <div className={styles.info_wrapper}>
                         <div className={styles.bedroom_info}>
                             <Bed className={styles.icon} />
-                            <p>{bedrooms} bedrooms</p>
+                            <p>{data.rooms?.Bedrooms} bedrooms</p>
                         </div>
                         <div className={styles.bathroom_info}>
                             <Bath className={styles.icon} />
-                            <p>{bathrooms} bathrooms</p>
+                            <p>{data.rooms?.Bathrooms} bathrooms</p>
                         </div>
                         <div className={styles.area_info}>
                             <Ruler className={styles.icon} />
-                            <p>{area}</p>
+                            <p>
+                                {data.area.toLocaleString()} {data.area_unit}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -58,7 +60,7 @@ export default function DetailsHeader() {
                     <div className={styles.location_info}>
                         <MapPin className={styles.icon} />
                         <p>
-                            {location}, {city}
+                            {data.location}, {data.city}
                         </p>
                     </div>
                 </div>

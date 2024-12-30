@@ -16,10 +16,10 @@ import RoomSelector from './_components/RoomsSelector/RoomsSelector';
 import SelectCity from './_components/SelectCity/SelectCity';
 import UploadImages from './_components/UploadImages/UploadImages';
 import PropertyType from './_components/propertyType/PropertyType';
-import { handleImagesUpload } from './_utils/handleImagesUpload';
 import createListing from './actions/createListing';
 import deleteListing from './actions/deleteListing';
 import getSignedUrls from './actions/getSignedUrls';
+import { handleImagesUpload } from './actions/handleImagesUpload';
 
 export default function Page() {
     const {
@@ -359,11 +359,10 @@ export default function Page() {
                     <div
                         className={clsx(styles.field_wrapper, styles.landline)}
                     >
-                        <h2 className={styles.form_field_label}>Landline:</h2>
+                        <h2 className={styles.form_field_label}>WhatsApp:</h2>
                         <input
-                            {...register('landline')}
-                            type="tel"
-                            id="landline"
+                            {...register('whatsapp')}
+                            id="whatsapp"
                             aria-label="landline number"
                             className={styles.input}
                         />

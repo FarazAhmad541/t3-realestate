@@ -1,5 +1,6 @@
 'use client';
 
+import { InferSelectModel } from 'drizzle-orm';
 import {
     ChevronDown,
     ChevronUp,
@@ -11,13 +12,22 @@ import {
 
 import { useState } from 'react';
 
-import { amenities, description, rooms } from '~/app/data';
+import { propertyListing } from '~/server/db/schema';
 
 import MainFeaturesList from './MainFeaturesList';
 import styles from './PropertyDescriptio.module.css';
 import RoomsFeaturesList from './RoomsFeaturesList';
 
-export default function PropertyDescription() {
+type PropertyDescriptionProps = {
+    data: InferSelectModel<typeof propertyListing>;
+    authorDetails: { firstName: string | null; lastName: string | null };
+};
+
+export default function PropertyDescription({
+    data,
+    authorDetails,
+}: PropertyDescriptionProps) {
+    const { amenities, rooms } = data;
     const [showMore, setShowMore] = useState(false);
 
     return (
@@ -27,8 +37,8 @@ export default function PropertyDescription() {
                     <h3 className={styles.sub_heading}>Description</h3>
                     <p className={styles.description}>
                         {showMore
-                            ? description
-                            : description.slice(0, 200) + ' ......'}
+                            ? data.description
+                            : data.description.slice(0, 200) + ' ......'}
                     </p>
                     <button
                         className={styles.read_more}
@@ -50,13 +60,13 @@ export default function PropertyDescription() {
                                 Main Features
                             </h4>
                             <div className={styles.amenities_list}>
-                                <MainFeaturesList List={amenities} />
+                                <MainFeaturesList amenities={amenities} />
                             </div>
                         </div>
                         <div className={styles.rooms}>
                             <h4 className={styles.feature_heading}>Rooms</h4>
                             <div className={styles.rooms_list}>
-                                <RoomsFeaturesList List={rooms} />
+                                <RoomsFeaturesList rooms={rooms} />
                             </div>
                         </div>
                     </div>
@@ -69,17 +79,32 @@ export default function PropertyDescription() {
                         <User className={styles.icon} />
                     </div>
                     <div className={styles.seller_name_wrapper}>
-                        <p className={styles.seller_name}>Faraz Ahmad</p>
+                        <p className={styles.seller_name}>
+                            {authorDetails.firstName} {authorDetails.lastName}
+                        </p>
                         <p className={styles.member_since}>Member Since 2019</p>
                     </div>
                 </div>
-                <a className={styles.contact_button}>
+                <a
+                    type="tel"
+                    href={`tel:${data.phone}`}
+                    className={styles.contact_button}
+                >
                     <Phone className={styles.contact_icon} /> Call
                 </a>
-                <a className={styles.contact_button}>
+                <a
+                    type="tel"
+                    href={`tel:${data.phone}`}
+                    className={styles.contact_button}
+                >
                     <MessageCircle className={styles.contact_icon} /> WhatsApp
                 </a>
-                <a className={styles.contact_button}>
+
+                <a
+                    type="tel"
+                    href={`mailto:${data.email}`}
+                    className={styles.contact_button}
+                >
                     <Mail className={styles.contact_icon} /> Email
                 </a>
             </div>

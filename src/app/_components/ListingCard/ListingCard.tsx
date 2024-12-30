@@ -1,5 +1,3 @@
-'use client';
-
 import {
     Bath,
     Bed,
@@ -11,31 +9,34 @@ import {
     Ruler,
 } from 'lucide-react';
 
-import {
-    area,
-    bathrooms,
-    bedrooms,
-    city,
-    email,
-    image,
-    location,
-    phoneNumber,
-    price,
-    whatsappNumber,
-} from '../../app/data';
-import BackgroundImage from '../DivWithBackgroundImage';
+import Link from 'next/link';
+
+import getListingCardData from '~/app/actions/getListingCardsData';
+import { ImageComponent } from '~/utils/ImageComponent/ImageComponent';
+
 import styles from './ListingCard.module.css';
 
-export default function PropertyListingCard() {
+type PropertyListingCardData = Awaited<
+    ReturnType<typeof getListingCardData>
+>[number];
+
+export default function PropertyListingCard({
+    data,
+}: {
+    data: PropertyListingCardData;
+}) {
     return (
-        <a href="/property-details" className={styles.property_card}>
+        <Link
+            href={`/property-details/${data.id}`}
+            className={styles.property_card}
+        >
             <div className={styles.card_content}>
-                <BackgroundImage
-                    src={image}
-                    alt={`Property image`}
-                    containerClassName={styles.image_container}
-                    imageClassName={styles.property_image}
-                >
+                <div className={styles.image_container}>
+                    <ImageComponent
+                        imageKey={data.main_image}
+                        className={styles.property_image}
+                    />
+
                     <div className={styles.overlay} />
                     <div className={styles.property_type_label}>House</div>
 
@@ -50,41 +51,47 @@ export default function PropertyListingCard() {
                                 borderRadius: '50%',
                             }}
                         />
-                        <p>For Sale</p>
+                        <p>
+                            {data.property_for === 'for_sale'
+                                ? 'For Sale'
+                                : 'For Rent'}
+                        </p>
                     </div>
-                </BackgroundImage>
+                </div>
 
                 <div className={styles.details_container}>
                     <div className={styles.price_area}>
                         <p className={styles.price}>
-                            Rs. {price.toLocaleString()}
+                            Rs. {data.price.toLocaleString()}
                         </p>
                         <div className={styles.area_info}>
                             <Ruler className={styles.icon}></Ruler>
-                            <p>{area}</p>
+                            <p>
+                                {data.area} {data.area_unit}
+                            </p>
                         </div>
                     </div>
                     <div className={styles.location_info}>
                         <MapPin className={styles.icon}></MapPin>
                         <p>
-                            {location}, {city}
+                            {data.location.toUpperCase()}, {data.city}
                         </p>
                     </div>
                     <div className={styles.property_info}>
                         <div className={styles.bedroom_info}>
                             <Bed className={styles.icon}></Bed>
-                            <p>{bedrooms}</p>
+                            <p>{data.rooms?.Bedrooms}</p>
                         </div>
                         <div className={styles.bathroom_info}>
                             <Bath className={styles.icon}></Bath>
-                            <p>{bathrooms}</p>
+                            <p>{data.rooms?.Bathrooms}</p>
                         </div>
                     </div>
                     <div className={styles.contact_buttons}>
                         <button
                             onClick={(e) => {
                                 e.stopPropagation();
-                                return (window.location.href = `tel:${phoneNumber}`);
+                                return (window.location.href = `tel:${data.phone}`);
                             }}
                         >
                             <Phone className={styles.button_icon} />
@@ -93,7 +100,7 @@ export default function PropertyListingCard() {
                         <button
                             onClick={(e) => {
                                 e.stopPropagation();
-                                return (window.location.href = `https://wa.me/${whatsappNumber}`);
+                                return (window.location.href = `https://wa.me/${data.whatsapp}`);
                             }}
                         >
                             <MessageCircle className={styles.button_icon} />
@@ -102,7 +109,7 @@ export default function PropertyListingCard() {
                         <button
                             onClick={(e) => {
                                 e.stopPropagation();
-                                return (window.location.href = `mailto:${email}`);
+                                return (window.location.href = `mailto:${data.email}`);
                             }}
                         >
                             <Mail className={styles.button_icon} />
@@ -111,6 +118,6 @@ export default function PropertyListingCard() {
                     </div>
                 </div>
             </div>
-        </a>
+        </Link>
     );
 }

@@ -7,6 +7,8 @@ import {
     Zap,
 } from 'lucide-react';
 
+import { Amenities } from '~/server/db/schema';
+
 import styles from './PropertyDescriptio.module.css';
 
 const getMainFeatureIcon = (feature: string) => {
@@ -28,15 +30,27 @@ const getMainFeatureIcon = (feature: string) => {
     }
 };
 
-export default function MainFeaturesList({ List }: { List: string[] }) {
+export default function MainFeaturesList({
+    amenities,
+}: {
+    amenities: Amenities | null;
+}) {
+    console.log('amenities: ', amenities);
+    if (!amenities) {
+        return null;
+    }
     return (
         <>
-            {List.map((feature) => (
-                <div key={feature} className={styles.feature_wrapper}>
-                    {getMainFeatureIcon(feature)}
-                    <p className={styles.feature_text}>{feature}</p>
-                </div>
-            ))}
+            {Object.entries(amenities).map(([key, value]) => {
+                if (value === true) {
+                    return (
+                        <div className={styles.feature_wrapper} key={key}>
+                            {getMainFeatureIcon(key)}
+                            <p className={styles.feature_text}>{key}</p>
+                        </div>
+                    );
+                }
+            })}
         </>
     );
 }
