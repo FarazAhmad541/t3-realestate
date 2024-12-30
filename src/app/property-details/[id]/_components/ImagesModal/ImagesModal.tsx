@@ -2,7 +2,7 @@
 
 import { ChevronLeft, Heart, Share } from 'lucide-react';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { ImageComponent } from '~/components/ImageComponent/ImageComponent';
 
@@ -11,14 +11,10 @@ import SingleImageModal from '../SingleImageModal/SingleImageModal';
 import styles from './ImagesModal.module.css';
 
 type Props = {
-    // isOpen: boolean;
-    // onClose: () => void;
     imagesKeys: string[];
 };
 
 export default function ImagesModal({ imagesKeys }: Props) {
-    // const [isOpenState, setIsOpenState] = useState(false);
-    const [selectedImage, setSelectedImage] = useState<string>();
     const { closeModal, openModal } = useModalContext();
     useEffect(() => {
         document.body.style.overflow = 'hidden';
@@ -27,16 +23,6 @@ export default function ImagesModal({ imagesKeys }: Props) {
             document.body.style.overflow = 'unset';
         };
     }, []);
-
-    // function handleImageModalOpen(e: React.MouseEvent) {
-    //     e.stopPropagation();
-    //     setIsOpenState(true);
-    // }
-
-    // function handleClose(e: React.MouseEvent) {
-    //     e.stopPropagation();
-    //     onClose();
-    // }
 
     return (
         <div className={styles.modal} onClick={() => closeModal()}>
@@ -76,8 +62,7 @@ export default function ImagesModal({ imagesKeys }: Props) {
                                             <SingleImageModal
                                                 imagesKeys={imagesKeys}
                                                 selectedImage={
-                                                    selectedImage ||
-                                                    imagesKeys[0]
+                                                    key || imagesKeys[0]
                                                 }
                                             />
                                         ),
@@ -94,10 +79,6 @@ export default function ImagesModal({ imagesKeys }: Props) {
                     })}
                 </div>
             </div>
-            {/* <SingleImageModal
-                imagesKeys={imagesKeys}
-                selectedImage={selectedImage || imagesKeys[0]}
-            /> */}
         </div>
     );
 }
