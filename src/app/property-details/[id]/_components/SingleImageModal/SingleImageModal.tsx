@@ -54,25 +54,38 @@ export default function SingleImageModal({
                     </button>
                 </div>
             </div>
-            <div className={styles.images_wrapper}>
+            <div className={styles.images_wrapper} onClick={() => closeModal()}>
                 <button
                     className={styles.nav_button}
-                    onClick={() => previousImage()}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        previousImage();
+                    }}
                 >
                     <ChevronLeft className={styles.nav_icon} />
                 </button>
                 <div
                     className={styles.image_container}
-                    onClick={() => nextImage()}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        nextImage();
+                    }}
                 >
                     <ImageComponent
                         imageKey={imagesKeys[currentImageIndex]}
                         className={styles.image}
+                        sizes="(mix-width: 768px) 50vw, 100vw"
                     />
+                    <div
+                        className={styles.image_number}
+                    >{`${currentImageIndex + 1} / ${imagesKeys.length}`}</div>
                 </div>
                 <button
                     className={styles.nav_button}
-                    onClick={() => nextImage()}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        nextImage();
+                    }}
                 >
                     <ChevronRight className={styles.nav_icon} />
                 </button>

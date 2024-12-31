@@ -2,15 +2,15 @@ import { redirect } from 'next/navigation';
 
 import { auth } from '@clerk/nextjs/server';
 
-import ListingsTable from './_components/ListingsTable/ListingsTable';
-import getAllListings from './actions/getAllListings';
+import ListingsTable from '../_components/ListingsTable/ListingsTable';
+import getAllListings from '../actions/getAllListings';
 
 export default async function Page() {
     const { userId } = await auth();
     if (!userId) {
         return redirect('/signin');
     }
-    const listings = await getAllListings({ id: userId });
+    const listings = await getAllListings({ id: userId, status: 'pending' });
 
     return <ListingsTable listings={listings} />;
 }

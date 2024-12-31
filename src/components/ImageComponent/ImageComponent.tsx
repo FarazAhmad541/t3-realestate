@@ -9,9 +9,10 @@ import styles from './styles.module.css';
 type Props = {
     imageKey: string;
     className: string;
+    sizes?: string;
 };
 
-export function ImageComponent({ imageKey, className }: Props) {
+export function ImageComponent({ imageKey, className, sizes }: Props) {
     const [isLoading, setIsLoading] = useState(true);
 
     return (
@@ -21,7 +22,7 @@ export function ImageComponent({ imageKey, className }: Props) {
                 src={`/api/image/${imageKey}`}
                 alt="Property image"
                 fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                sizes={sizes || '(min-width: 768px) 50vw, 100vw'}
                 className={className}
                 onLoad={(event) => {
                     if (
