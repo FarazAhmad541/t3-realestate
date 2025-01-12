@@ -1,11 +1,19 @@
 'use server';
 
-import { eq } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
+
+import { unstable_cache } from 'next/cache';
+
+import { auth } from '@clerk/nextjs/server';
 
 import { db } from '~/server/db';
-import { PropertyType, propertyListing } from '~/server/db/schema';
+import { PropertyType, propertyListing, users } from '~/server/db/schema';
+
+export default function 
 
 export default async function getListingCardsData(propertyType: PropertyType) {
+    const { userId } = await auth();
+
     try {
         const response = await db
             .select({
@@ -23,10 +31,18 @@ export default async function getListingCardsData(propertyType: PropertyType) {
                 email: propertyListing.email,
                 whatsapp: propertyListing.whatsapp,
                 id: propertyListing.id,
+                is_saved: sql<boolean>`
+                CASE 
+                    WHEN ${propertyListing.id} = ANY(${users.saved_listings}) THEN true
+                    ELSE false
+                END
+            `.as('is_saved'),
             })
             .from(propertyListing)
+            .leftJoin(users, eq(users.id, userId || ''))
             .where(eq(propertyListing.property_type, propertyType))
             .limit(6);
+        console.log(response);
         return response ?? [];
     } catch (error: any) {
         console.error('Query error', {

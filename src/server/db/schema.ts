@@ -1,4 +1,5 @@
 import {
+    boolean,
     json,
     pgEnum,
     pgTableCreator,
@@ -141,9 +142,11 @@ export const users = createTable('users', {
     first_name: text('first_name'),
     last_name: text('last_name'),
     email: text('email').notNull(),
+    is_admin: boolean('is_admin').default(false),
     auth_provider: text('auth_provider'),
     created_at: timestamp('created_at').defaultNow().notNull(),
     updated_at: timestamp('updated_at'),
+    saved_listings: text('saved_listings').array(),
 });
 export type UserInsertSchema = typeof users.$inferInsert;
 export type UserSelectSchema = typeof users.$inferSelect;

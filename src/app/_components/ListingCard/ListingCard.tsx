@@ -1,3 +1,5 @@
+'use client';
+
 import {
     Bath,
     Bed,
@@ -11,8 +13,10 @@ import {
 
 import Link from 'next/link';
 
+import addToFavorites from '~/app/actions/addToFavorites';
 import getListingCardData from '~/app/actions/getListingCardsData';
 import { ImageComponent } from '~/components/ImageComponent/ImageComponent';
+import HeartSvg from '~/utils/heart-svg';
 
 import styles from './ListingCard.module.css';
 
@@ -25,6 +29,14 @@ export default function PropertyListingCard({
 }: {
     data: PropertyListingCardData;
 }) {
+    const handleAddToFavorites = async (
+        e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    ) => {
+        console.log('clicked');
+        e.stopPropagation();
+        e.preventDefault();
+        await addToFavorites({ listing_id: data.id });
+    };
     return (
         <Link
             href={`/property-details/${data.id}`}
@@ -39,8 +51,13 @@ export default function PropertyListingCard({
 
                     <div className={styles.overlay} />
                     <div className={styles.property_type_label}>House</div>
-
-                    <Heart className={styles.favorite_icon} />
+                    <button onClick={(e) => handleAddToFavorites(e)}>
+                        {data.is_saved ? (
+                            <HeartSvg className={styles.favorite_icon} />
+                        ) : (
+                            <Heart className={styles.favorite_icon} />
+                        )}
+                    </button>
 
                     <div className={styles.sale_label}>
                         <div
@@ -91,6 +108,7 @@ export default function PropertyListingCard({
                         <button
                             onClick={(e) => {
                                 e.stopPropagation();
+                                e.preventDefault();
                                 return (window.location.href = `tel:${data.phone}`);
                             }}
                         >
@@ -100,6 +118,7 @@ export default function PropertyListingCard({
                         <button
                             onClick={(e) => {
                                 e.stopPropagation();
+                                e.preventDefault();
                                 return (window.location.href = `https://wa.me/${data.whatsapp}`);
                             }}
                         >
@@ -109,6 +128,7 @@ export default function PropertyListingCard({
                         <button
                             onClick={(e) => {
                                 e.stopPropagation();
+                                e.preventDefault();
                                 return (window.location.href = `mailto:${data.email}`);
                             }}
                         >
